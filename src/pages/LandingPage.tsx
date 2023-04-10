@@ -1,7 +1,9 @@
 import DestinationCard, { DestinationCardProps } from "../components/card";
+import Footer from "../components/footer";
 import DestinationGroup from "../components/group";
 import Header from "../components/header";
 import Navbar from "../components/navbar";
+import WhySinta from "../components/whysinta/whysinta";
 import sample from "../images/sample/destination1.png";
 
 const data: DestinationCardProps = {
@@ -65,6 +67,8 @@ const LandingPage = () => {
             title="Include semuanya tinggal bawa badan"
             subtitle="Gaperlu repot mikirin biaya lainnya, cukup bawa badan and enjoy ur holiday 🤩"
             data={arr}/>
+            <WhySinta/>
+            <Footer/>
         </>
     )
 };
