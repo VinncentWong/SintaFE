@@ -16,12 +16,17 @@ const Navbar = ({isAuthenticated}: NavbarProps) => {
 
     return(
         <Flex
+        position={{
+            "lg" : "fixed"
+        }}
         width={{
             "lg" : "100%"
         }}
         justifyContent={{
             "lg" : "start"
-        }}>
+        }}
+        zIndex="2"
+        backgroundColor="white">
             <Flex
             width={{
                 "lg" : "20%"
