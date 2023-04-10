@@ -5,12 +5,14 @@ import { fontFamily } from "../../style/font";
 const Header = () => {
     return(
         <Box
+        position="relative"
         height={{
             "lg" : "90vh"
         }}
         backgroundImage={header}
         backgroundSize="cover"
-        backgroundRepeat="no-repeat">
+        backgroundRepeat="no-repeat"
+        zIndex="1">
             <Flex
             flexDir={{
                 "lg" : "column"
