@@ -4,16 +4,30 @@ import cariColor from "../../images/logo/cari_color.png";
 import jabatTanganColor from "../../images/logo/jabat_tangan_color.png";
 import { Button, Flex, Image, Link, Text } from "@chakra-ui/react";
 import { fontFamily } from "../../style/font";
-import { useState } from "react";
+import { useContext } from "react";
+import LandingContext from "../../context/LandingContext";
 
 interface NavbarProps{
-    isAuthenticated: boolean
+    isAuthenticated: boolean,
+    type: "landing" | "other",
 }
 
-const Navbar = ({isAuthenticated}: NavbarProps) => {
+const Navbar = ({isAuthenticated, type}: NavbarProps) => {
 
-    const [color, setColor] = useState<string>();
-
+    const value = useContext(LandingContext);
+    const header = document.getElementById("header");
+    const bottom = header?.getBoundingClientRect().bottom;
+    let greaterThanHeader = false;
+    if(bottom){
+        if(value.position >= bottom){
+            greaterThanHeader = true;
+        } else {
+            greaterThanHeader = false;
+        }
+    }
+    const logoSinta = greaterThanHeader || type == "other"? colorLogo: logo;
+    const color = greaterThanHeader || type == "other"? "#0053AD" : "white";
+    const backgroundColor = greaterThanHeader || type == "other" ? "white" : "transparent";
     return(
         <Flex
         position={{
@@ -26,19 +40,21 @@ const Navbar = ({isAuthenticated}: NavbarProps) => {
             "lg" : "start"
         }}
         zIndex="2"
-        backgroundColor="white">
+        backgroundColor={backgroundColor}>
             <Flex
             width={{
                 "lg" : "20%"
             }}>
-                <Image 
-                src={colorLogo}
-                paddingLeft={{
-                    "lg" : "2rem"
-                }}
-                paddingRight={{
-                    "lg" : "2rem"
-                }}/>
+                <Link href="/landingpage">
+                    <Image 
+                    src={logoSinta}
+                    paddingLeft={{
+                        "lg" : "2rem"
+                    }}
+                    paddingRight={{
+                        "lg" : "2rem"
+                    }}/>
+                </Link>
             </Flex>
             <Flex
             width="70%"
@@ -99,7 +115,8 @@ const Navbar = ({isAuthenticated}: NavbarProps) => {
                     }}
                     marginBottom={{
                         "lg" : "30px"
-                    }}>
+                    }}
+                    href="/jadipartner">
                         <Flex>
                             <Image 
                             src={jabatTanganColor}
@@ -136,7 +153,8 @@ const Navbar = ({isAuthenticated}: NavbarProps) => {
                     }}
                     marginBottom={{
                         "lg" : "30px"
-                    }}>
+                    }}
+                    href="/paketwisata">
                         Paket Wisata
                     </Link>
                 </Flex>
