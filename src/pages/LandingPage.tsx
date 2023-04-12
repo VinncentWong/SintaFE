@@ -1,9 +1,11 @@
+import { useState } from "react";
 import DestinationCard, { DestinationCardProps } from "../components/card";
 import Footer from "../components/footer";
 import DestinationGroup from "../components/group";
 import Header from "../components/header";
 import Navbar from "../components/navbar";
 import WhySinta from "../components/whysinta/whysinta";
+import LandingContext from "../context/LandingContext";
 import sample from "../images/sample/destination1.png";
 
 const data: DestinationCardProps = {
@@ -47,10 +49,18 @@ const arr = [
 ]
 
 const LandingPage = () => {
+
+    const [position, setPosition] = useState<number>(0);
+    window.addEventListener("scroll", (e: Event) => {
+        setPosition(window.scrollY);
+    });
+
     return(
-        <>
-            <Navbar isAuthenticated={false}/>
-            <Header/>
+        <LandingContext.Provider value={{
+            position: position,
+        }}>
+            <Navbar isAuthenticated={false} type="landing"/>
+            <Header type="landing"/>
             <DestinationGroup 
             title="Pilihan destinasi menarik di dalam negeri!"
             subtitle="Yuk, temukan destinasi favoritmu! Ada banyak pilihan paket wisata menantimu 🤗"
@@ -69,7 +79,7 @@ const LandingPage = () => {
             data={arr}/>
             <WhySinta/>
             <Footer/>
-        </>
+        </LandingContext.Provider>
     )
 };
 
