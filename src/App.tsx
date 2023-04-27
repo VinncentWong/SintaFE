@@ -2,13 +2,10 @@ import { BrowserRouter, Navigate, redirect, Route, Routes, useNavigate } from "r
 import JadiPartnerSintaPage from "./pages/JadiPartnerSintaPage";
 import LandingPage from "./pages/LandingPage";
 import PaketWisataPage from "./pages/PaketWisataPage";
-import Header from "./components/header";
-import Footer from "./components/footer";
-import DetailPaketWisata from "./pages/DetailPaketWisata";
 import { PaketWisataRouter } from "./router/PaketWisataRouter";
+import AuthenticationPage from "./pages/AuthenticationPage";
 
 function App() {
-
   return (
     <BrowserRouter>
       <Routes>
@@ -17,6 +14,11 @@ function App() {
         <Route path="/jadipartner" element={<JadiPartnerSintaPage/>}/>
         <Route path="/paketwisata" element={<PaketWisataPage/>}/>
         <Route path="/paketwisata/deskripsi/:userId" element={<PaketWisataRouter/>}/>
+        <Route path="/paketwisata/infopenting/:userId" element={<PaketWisataRouter/>}/>
+        <Route path="/paketwisata/fasilitas/:userId" element={<PaketWisataRouter/>}/>
+        <Route path="/register" element={<AuthenticationPage type="register"/>}/>
+        <Route path="/login" element={<AuthenticationPage type="login"/>}/>
+        <Route path="/reset" element={<AuthenticationPage type="reset"/>}/>
       </Routes>
     </BrowserRouter>
   );
