@@ -6,6 +6,7 @@ import { Button, Flex, Image, Link, Text } from "@chakra-ui/react";
 import { fontFamily } from "../../style/font";
 import { useContext } from "react";
 import LandingContext from "../../context/LandingContext";
+import { useNavigate } from "react-router-dom";
 
 interface NavbarProps{
     isAuthenticated: boolean,
@@ -13,7 +14,6 @@ interface NavbarProps{
 }
 
 const Navbar = ({isAuthenticated, type}: NavbarProps) => {
-
     const value = useContext(LandingContext);
     const header = document.getElementById("header");
     const bottom = header?.getBoundingClientRect().bottom;
@@ -28,6 +28,7 @@ const Navbar = ({isAuthenticated, type}: NavbarProps) => {
     const logoSinta = greaterThanHeader || type == "other"? colorLogo: logo;
     const color = greaterThanHeader || type == "other"? "#0053AD" : "white";
     const backgroundColor = greaterThanHeader || type == "other" ? "white" : "transparent";
+    const navigate = useNavigate();
     return(
         <Flex
         position={{
@@ -220,7 +221,10 @@ const Navbar = ({isAuthenticated, type}: NavbarProps) => {
                     color="#0053AD">Masuk</Text>
                    </Button>
                    <Button
-                   backgroundColor="#0053AD">
+                   backgroundColor="#0053AD"
+                   onClick={() => {
+                        navigate("/register");
+                   }}>
                     <Text
                     fontFamily={fontFamily}
                     color="white">Daftar</Text>
