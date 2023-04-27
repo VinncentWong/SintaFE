@@ -1,12 +1,17 @@
 import { Button, Flex, Text } from "@chakra-ui/react";
 import { fontFamily } from "../../style/font";
-import DeskripsiPaketWisata from "../paket_wisata_detail/paket_wisata_deskripsi";
+import { PaketWisataType } from "../../router/PaketWisataRouter";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import WisataIdContext from "../../context/WisataIdContext";
 
 interface BreadCrumbProps{
-    type: "deskripsi" | "infopenting" | "rundown" | "fasilitas" | "pesanpaketwisata"
+    type: PaketWisataType
 }
 
 const BreadCrumb = ({type}: BreadCrumbProps) => {
+    const navigate = useNavigate();
+    const id = useContext(WisataIdContext);
     return(
         <Flex
         border="2px solid #ABBED1"
@@ -36,6 +41,9 @@ const BreadCrumb = ({type}: BreadCrumbProps) => {
             }}
             paddingBottom={{
                 "lg" : "3rem"
+            }}
+            onClick={() => {
+                navigate(`/paketwisata/deskripsi/${id.id}`);
             }}>
                 <Text
                 fontFamily={fontFamily}
@@ -52,6 +60,9 @@ const BreadCrumb = ({type}: BreadCrumbProps) => {
             }}
             paddingBottom={{
                 "lg" : "3rem"
+            }}
+            onClick={() => {
+                navigate(`/paketwisata/infopenting/${id.id}`);
             }}>
                 <Text
                 fontFamily={fontFamily}
@@ -84,6 +95,9 @@ const BreadCrumb = ({type}: BreadCrumbProps) => {
             }}
             paddingBottom={{
                 "lg" : "3rem"
+            }}
+            onClick={() => {
+                navigate(`/paketwisata/fasilitas/${id.id}`);
             }}>
                 <Text
                 fontFamily={fontFamily}
