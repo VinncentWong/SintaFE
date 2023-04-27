@@ -1,9 +1,10 @@
-import { Box, Flex, Image, SkeletonCircle, SkeletonText, Text } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { Box, Flex, Image, Text } from "@chakra-ui/react";
+import { useEffect } from "react";
 import deskripsi1 from "../../images/detail_wisata/deskripsi1.png";
 import deskripsi2 from "../../images/detail_wisata/deskripsi2.png";
 import deskripsi3 from "../../images/detail_wisata/deskripsi3.png";
 import { fontFamily } from "../../style/font";
+import randomNumber from "../../util/random";
 
 interface DeskrisiPaketWisataContentProps{
     paketWisataDescription: string,
@@ -13,8 +14,6 @@ interface DeskrisiPaketWisataContentProps{
 }
 
 const DeskripsiPaketWisata = () => {
-
-    const [completeLoad, setCompleteLoad] = useState<boolean>(true);
     const tempData: DeskrisiPaketWisataContentProps = {
         paketWisataDescription: "Bosan dengan aktifitas sehari" + 
         "-hari dan ingin liburan yang menyenangkan? Kini kami telah menyediakan paket wisata " + 
@@ -58,7 +57,6 @@ const DeskripsiPaketWisata = () => {
             paddingRight={{
                 "lg" : "5rem"
             }}>
-                {completeLoad? 
                 <Flex 
                 flexDir="column">
                     <WisataDetailComponent 
@@ -67,11 +65,6 @@ const DeskripsiPaketWisata = () => {
                     photosContent={tempData.photosContent}
                     subTitle={tempData.subTitle}/>
                 </Flex>
-                : 
-                <Box>
-                    <SkeletonCircle isLoaded={completeLoad} size='10'/>
-                    <SkeletonText mt='4' noOfLines={5} spacing='4' skeletonHeight='6' isLoaded={completeLoad}/>
-                </Box>}
             </Box>
         </Flex>
     )
@@ -84,8 +77,7 @@ const WisataDetailComponent = (
     for(let i = 0; i < photos.length ; i++){
         listElement.push(
             <WisataSubtitleContent
-            key={i}
-            description={paketWisataDescription}
+            key={i + (randomNumber())}
             image={photos[i]}
             index={String(i+1)}
             subtitle={subTitle[i]}
@@ -123,14 +115,12 @@ interface WisataSubtitleContentProps{
     index: string,
     subtitle: string,
     image: string,
-    description: string,
     imageContent: string
 }
 
 const WisataSubtitleContent = (
-    {index, description, image, subtitle, imageContent}
+    {index, image, subtitle, imageContent}
     : WisataSubtitleContentProps) => {
-    console.log(`description = ${description}`);
     return(
         <Flex
         flexDir="column">
