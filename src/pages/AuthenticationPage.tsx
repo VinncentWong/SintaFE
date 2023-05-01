@@ -1,11 +1,16 @@
-import { Box, Button, Flex, Image, Input, Link, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Image, Input, Link, Text, useToast } from "@chakra-ui/react";
 import background from "../images/register_login/background.png";
 import logo from "../images/register_login/sinta.png";
 import icon from "../images/register_login/truk.png";
 import { fontFamily } from "../style/font";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useContext, useState } from "react";
 import GoogleIcon from "../icon/google_icon";
 import { ChevronLeftIcon } from "@chakra-ui/icons";
+import validator from "validator";
+import api from "../api/api";
+import Response, { User } from "../response/response";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface AuthenticationProps{
     type: "register" | "login" | "reset"
@@ -17,10 +22,11 @@ interface InputSintaProps{
     notes: string,
     value: string,
     onChange: (e: ChangeEvent<HTMLInputElement>) => void,
-    width: string
+    width: string,
+    type: React.HTMLInputTypeAttribute
 }
 
-const InputSinta = ({description, notes, onChange, placeholder, value, width}: InputSintaProps) => {
+const InputSinta = ({description, notes, onChange, placeholder, value, width, type}: InputSintaProps) => {
     return (
         <Box
                 width={{
@@ -54,7 +60,8 @@ const InputSinta = ({description, notes, onChange, placeholder, value, width}: I
                         "lg" : "0.5rem"
                     }}
                     value={value}
-                    onChange={onChange}/>
+                    onChange={onChange}
+                    type={type}/>
                     <Text
                     fontFamily={fontFamily}
                     fontWeight={400}
@@ -180,6 +187,7 @@ const TopWithBackSymbol = ({description, href, onClick}: TopWithBackSymbolProps)
         </Flex>
     )
 };
+
 const AuthenticationPage = ({type}: AuthenticationProps) => {
     const [pressSecondPage, setpressSecondPage] = useState<boolean>(false);
     const [email, setEmail] = useState<string>("");
@@ -187,7 +195,184 @@ const AuthenticationPage = ({type}: AuthenticationProps) => {
     const [nama, setNama] = useState<string>("");
     const [kataSandi, setKataSandi] = useState<string>("");
     const [konfKataSandi, setKonfKataSandi] = useState<string>("");
+    const [serverLoading, setServerLoading] = useState<boolean>(false);
+    const toast = useToast();
+    const navigate = useNavigate();
     let showedElement: JSX.Element;
+
+    const registerSubmitHandler = async () => {
+        const errMessage = [];
+        if(!validator.isEmail(email)){
+            errMessage.push("Format email tidak valid");
+        }
+        if(noTelp.length < 10 || noTelp.length > 16){
+            errMessage.push("Pastikan panjang nomor telepon 10 <= nomor telepon <= 16");
+        }
+        if(!noTelp.startsWith("08")){
+            errMessage.push("Nomor telepon harus berawalan 08");
+        }
+        if(nama.length < 4){
+            errMessage.push("Panjang minimal nama adalah 4");
+        }
+        if(kataSandi.length < 4){
+            errMessage.push("Panjang minimal kata sandi adalah 4");
+        }
+        if(kataSandi != konfKataSandi){
+            errMessage.push("Kata sandi dengan konfirmasi kata sandi tidak sama");
+        }
+        const li: JSX.Element[] = [];
+        errMessage.forEach((d) => {
+            li.push(<li>{d}</li>);
+        });
+        const ul = <ul>{li}</ul>;
+        if(errMessage.length > 0){
+            toast({
+                isClosable: true,
+                containerStyle: {
+                    display: "flex",
+                    flexDir: "column"
+                },
+                title: "Invalid Input",
+                description: ul,
+                status: "error",
+                position: "top-right"
+            });
+        } else {
+            setServerLoading(true);
+            try{
+                const result = await api.post<Response>("/user/create", {
+                    "nama" : nama,
+                    "email" : email,
+                    "password" : kataSandi,
+                    "noTelepon" : noTelp
+                });
+                setServerLoading(false);
+                if(result.data.success){
+                    toast({
+                        isClosable: true,
+                        containerStyle: {
+                            display: "flex",
+                            flexDir: "column"
+                        },
+                        title: "Sukses menyimpan data Anda",
+                        description: 
+                        "Pastikan Anda melakukan konfirmasi email Anda " + 
+                        "lewat link yang kami kirimkan ke Email yang sudah Anda daftarkan",
+                        status: "success",
+                        position: "top-right"
+                    });
+                    setTimeout(() => {
+                        navigate("/");
+                    }, 5000);
+                } else {
+                    toast({
+                        isClosable: true,
+                        containerStyle: {
+                            display: "flex",
+                            flexDir: "column"
+                        },
+                        title: "Error dari server",
+                        description: result.data.message,
+                        status: "error",
+                        position: "top-right"
+                    });
+                }
+            } catch(e){
+                setServerLoading(false);
+                if(axios.isAxiosError(e)){
+                    const message = e.response?.data as Response;
+                    toast({
+                        isClosable: true,
+                        containerStyle: {
+                            display: "flex",
+                            flexDir: "column"
+                        },
+                        title: "Error dari server",
+                        description: message.message,
+                        status: "error",
+                        position: "top-right"
+                        }
+                    );
+                } else {
+                    const err = e as Error;
+                    toast({
+                        isClosable: true,
+                        containerStyle: {
+                            display: "flex",
+                            flexDir: "column"
+                        },
+                        title: "Error dari server",
+                        description: err.message,
+                        status: "error",
+                        position: "top-right"
+                        }
+                    );
+                }
+            }
+            
+        }
+    };
+
+    const loginSubmitHandler = async () => {
+        setServerLoading(true);
+        try{
+            const result = await api.post<Response>("/user/login", {
+                "email" : email,
+                "password" : kataSandi
+            });
+            setServerLoading(false);
+            if(result.data.success){
+                const jwtToken = result.data.jwt_token as string;
+                const user = result.data.user as User;
+                localStorage.setItem("jwtToken", jwtToken);
+                localStorage.setItem("user", JSON.stringify(user));
+            }
+            toast({
+                isClosable: true,
+                containerStyle: {
+                    display: "flex",
+                    flexDir: "column"
+                },
+                title: "Sukses menyimpan data Anda",
+                description: result.data.message,
+                status: "success",
+                position: "top-right"
+            });
+            setTimeout(() => {
+                navigate("/");
+            }, 3000);
+        } catch(e){
+            setServerLoading(false);
+            if(axios.isAxiosError<Response>(e)){
+                toast({
+                    isClosable: true,
+                    containerStyle: {
+                        display: "flex",
+                        flexDir: "column"
+                    },
+                    title: "Error dari server",
+                    description: e.response?.data.message,
+                    status: "error",
+                    position: "top-right"
+                });
+            } else {
+                if(e instanceof Error){
+                    toast({
+                        isClosable: true,
+                        containerStyle: {
+                            display: "flex",
+                            flexDir: "column"
+                        },
+                        title: "Error dari server",
+                        description: e.message,
+                        status: "error",
+                        position: "top-right"
+                    });
+                }
+            }
+        }
+    };
+
     if(type == "register"){
         if(!pressSecondPage){
             showedElement = 
@@ -215,7 +400,8 @@ const AuthenticationPage = ({type}: AuthenticationProps) => {
                 }}
                 placeholder="Masukkan alamat email anda disini"
                 value={email}
-                width="80%"/>
+                width="80%"
+                type="email"/>
                 <Box
                 marginBottom={{
                     "lg" : "2rem"
@@ -284,7 +470,8 @@ const AuthenticationPage = ({type}: AuthenticationProps) => {
                         }}
                         placeholder="Masukkan nomor telepon anda disini"
                         value={noTelp}
-                        width="95%"/>
+                        width="95%"
+                        type="text"/>
                         <InputSinta
                         description="Nama Lengkap"
                         notes="Gunakan nama lengkap anda sesuai dengan KTP/Paspor/SIM"
@@ -293,7 +480,8 @@ const AuthenticationPage = ({type}: AuthenticationProps) => {
                         }}
                         value={nama}
                         placeholder="Masukkan nama lengkap anda disini"
-                        width="95%"/>
+                        width="95%"
+                        type="text"/>
                         <InputSinta
                         description="Kata Sandi"
                         notes="Gunakan minimal 1 huruf kapital, 1 angka, dan 1 tanda baca"
@@ -303,6 +491,7 @@ const AuthenticationPage = ({type}: AuthenticationProps) => {
                         placeholder="Masukkan 8-30 karakter kata sandi anda disini"
                         value={kataSandi}
                         width="95%"
+                        type="password"
                         />
                         <InputSinta
                         description="Konfirmasi Kata Sandi"
@@ -313,6 +502,7 @@ const AuthenticationPage = ({type}: AuthenticationProps) => {
                         placeholder="Masukkan ulang kata sandi anda disini"
                         value={konfKataSandi}
                         width="95%"
+                        type="password"
                         />
                         <Button
                             variant="solid"
@@ -321,15 +511,14 @@ const AuthenticationPage = ({type}: AuthenticationProps) => {
                             width={{
                                 "lg" : "95%"
                             }}
-                            onClick={() => {
-                                
-                            }}
+                            onClick={registerSubmitHandler}
                             marginTop={{
                                 "lg" : "2rem"
                             }}
                             marginBottom={{
                                 "lg" : "5rem"
                             }}
+                            isLoading={serverLoading}
                         >
                             <Text
                             fontFamily={fontFamily}
@@ -360,6 +549,7 @@ const AuthenticationPage = ({type}: AuthenticationProps) => {
                     }}
                     width="90%"
                     value={email}
+                    type="email"
                     />
                 </Box>
                 <Button
@@ -421,6 +611,7 @@ const AuthenticationPage = ({type}: AuthenticationProps) => {
                 placeholder="Masukkan alamat email anda disini"
                 width="95%"
                 value={email}
+                type="email"
                 />
                 <InputSinta 
                 description="Kata Sandi"
@@ -431,6 +622,7 @@ const AuthenticationPage = ({type}: AuthenticationProps) => {
                 placeholder="Masukkan kata sandi anda disini"
                 width="95%"
                 value={kataSandi}
+                type="password"
                 />
                 <Link 
                 position="absolute"
@@ -456,15 +648,14 @@ const AuthenticationPage = ({type}: AuthenticationProps) => {
                         width={{
                             "lg" : "95%"
                         }}
-                        onClick={() => {
-                                
-                        }}
+                        onClick={loginSubmitHandler}
                         marginTop={{
                             "lg" : "2rem"
                         }}
                         marginBottom={{
                             "lg" : "5rem"
                         }}
+                        isLoading={serverLoading}
                     >
                         <Text
                             fontFamily={fontFamily}
