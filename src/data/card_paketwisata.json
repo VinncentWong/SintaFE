@@ -1,0 +1,193 @@
+{
+    "paket_wisata" : [
+        {
+            "id" : 1,
+            "nama" : "Paket Wisata Pantai Malang Selatan Full Trip",
+            "kota" : "Malang",
+            "provinsi" : "Jawa Timur",
+            "harga" : 165000,
+            "lama_paket_wisata" : "1D",
+            "gambar" : "../../images/sample/destination1.png"
+        },
+        {
+            "id" : 2,
+            "nama" : "Paket Wisata Pantai Malang Selatan Full Trip",
+            "kota" : "Malang",
+            "provinsi" : "Jawa Timur",
+            "harga" : 165000,
+            "lama_paket_wisata" : "1D",
+            "gambar" : "../../images/sample/destination1.png"
+        },
+        {
+            "id" : 3,
+            "nama" : "Paket Wisata Pantai Malang Selatan Full Trip",
+            "kota" : "Malang",
+            "provinsi" : "Jawa Timur",
+            "harga" : 165000,
+            "lama_paket_wisata" : "1D",
+            "gambar" : "../../images/sample/destination1.png"
+        },
+        {
+            "id" : 4,
+            "nama" : "Paket Wisata Pantai Malang Selatan Full Trip",
+            "kota" : "Malang",
+            "provinsi" : "Jawa Timur",
+            "harga" : 165000,
+            "lama_paket_wisata" : "1D",
+            "gambar" : "../../images/sample/destination1.png"
+        },
+        {
+            "id" : 5,
+            "nama" : "Paket Wisata Pantai Malang Selatan Full Trip",
+            "kota" : "Malang",
+            "provinsi" : "Jawa Timur",
+            "harga" : 165000,
+            "lama_paket_wisata" : "1D",
+            "gambar" : "../../images/sample/destination1.png"
+        },
+        {
+            "id" : 6,
+            "nama" : "Paket Wisata Pantai Malang Selatan Full Trip",
+            "kota" : "Malang",
+            "provinsi" : "Jawa Timur",
+            "harga" : 165000,
+            "lama_paket_wisata" : "1D",
+            "gambar" : "../../images/sample/destination1.png"
+        },
+        {
+            "id" : 7,
+            "nama" : "Paket Wisata Pantai Malang Selatan Full Trip",
+            "kota" : "Malang",
+            "provinsi" : "Jawa Timur",
+            "harga" : 165000,
+            "lama_paket_wisata" : "1D",
+            "gambar" : "../../images/sample/destination1.png"
+        },
+        {
+            "id" : 8,
+            "nama" : "Paket Wisata Pantai Malang Selatan Full Trip",
+            "kota" : "Malang",
+            "provinsi" : "Jawa Timur",
+            "harga" : 165000,
+            "lama_paket_wisata" : "1D",
+            "gambar" : "../../images/sample/destination1.png"
+        },
+        {
+            "id" : 9,
+            "nama" : "Paket Wisata Pantai Malang Selatan Full Trip",
+            "kota" : "Malang",
+            "provinsi" : "Jawa Timur",
+            "harga" : 165000,
+            "lama_paket_wisata" : "1D",
+            "gambar" : "../../images/sample/destination1.png"
+        },
+        {
+            "id" : 10,
+            "nama" : "Paket Wisata Pantai Malang Selatan Full Trip",
+            "kota" : "Malang",
+            "provinsi" : "Jawa Timur",
+            "harga" : 165000,
+            "lama_paket_wisata" : "1D",
+            "gambar" : "../../images/sample/destination1.png"
+        },
+        {
+            "id" : 11,
+            "nama" : "Paket Wisata Pantai Malang Selatan Full Trip",
+            "kota" : "Malang",
+            "provinsi" : "Jawa Timur",
+            "harga" : 165000,
+            "lama_paket_wisata" : "1D",
+            "gambar" : "../../images/sample/destination1.png"
+        },
+        {
+            "id" : 12,
+            "nama" : "Paket Wisata Pantai Malang Selatan Full Trip",
+            "kota" : "Malang",
+            "provinsi" : "Jawa Timur",
+            "harga" : 165000,
+            "lama_paket_wisata" : "1D",
+            "gambar" : "../../images/sample/destination1.png"
+        },
+        {
+            "id" : 13,
+            "nama" : "Paket Wisata Pantai Malang Selatan Full Trip",
+            "kota" : "Malang",
+            "provinsi" : "Jawa Timur",
+            "harga" : 165000,
+            "lama_paket_wisata" : "1D",
+            "gambar" : "../../images/sample/destination1.png"
+        },
+        {
+            "id" : 14,
+            "nama" : "Paket Wisata Pantai Malang Selatan Full Trip",
+            "kota" : "Malang",
+            "provinsi" : "Jawa Timur",
+            "harga" : 165000,
+            "lama_paket_wisata" : "1D",
+            "gambar" : "../../images/sample/destination1.png"
+        },
+        {
+            "id" : 15,
+            "nama" : "Paket Wisata Pantai Malang Selatan Full Trip",
+            "kota" : "Malang",
+            "provinsi" : "Jawa Timur",
+            "harga" : 165000,
+            "lama_paket_wisata" : "1D",
+            "gambar" : "../../images/sample/destination1.png"
+        },
+        {
+            "id" : 16,
+            "nama" : "Paket Wisata Pantai Malang Selatan Full Trip",
+            "kota" : "Malang",
+            "provinsi" : "Jawa Timur",
+            "harga" : 165000,
+            "lama_paket_wisata" : "1D",
+            "gambar" : "../../images/sample/destination1.png"
+        },
+        {
+            "id" : 17,
+            "nama" : "Paket Wisata Pantai Malang Selatan Full Trip",
+            "kota" : "Malang",
+            "provinsi" : "Jawa Timur",
+            "harga" : 165000,
+            "lama_paket_wisata" : "1D",
+            "gambar" : "../../images/sample/destination1.png"
+        },
+        {
+            "id" : 18,
+            "nama" : "Paket Wisata Pantai Malang Selatan Full Trip",
+            "kota" : "Malang",
+            "provinsi" : "Jawa Timur",
+            "harga" : 165000,
+            "lama_paket_wisata" : "1D",
+            "gambar" : "../../images/sample/destination1.png"
+        },
+        {
+            "id" : 19,
+            "nama" : "Paket Wisata Pantai Malang Selatan Full Trip",
+            "kota" : "Malang",
+            "provinsi" : "Jawa Timur",
+            "harga" : 165000,
+            "lama_paket_wisata" : "1D",
+            "gambar" : "../../images/sample/destination1.png"
+        },
+        {
+            "id" : 20,
+            "nama" : "Paket Wisata Pantai Malang Selatan Full Trip",
+            "kota" : "Malang",
+            "provinsi" : "Jawa Timur",
+            "harga" : 165000,
+            "lama_paket_wisata" : "1D",
+            "gambar" : "../../images/sample/destination1.png"
+        },
+        {
+            "id" : 21,
+            "nama" : "Paket Wisata Pantai Malang Selatan Full Trip",
+            "kota" : "Malang",
+            "provinsi" : "Jawa Timur",
+            "harga" : 165000,
+            "lama_paket_wisata" : "1D",
+            "gambar" : "../../images/sample/destination1.png"
+        }
+    ]
+}
