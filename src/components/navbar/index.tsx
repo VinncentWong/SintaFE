@@ -2,11 +2,12 @@ import colorLogo from "../../images/logo/logo_color.png";
 import logo from "../../images/logo/logo.png";
 import cariColor from "../../images/logo/cari_color.png";
 import jabatTanganColor from "../../images/logo/jabat_tangan_color.png";
-import { Button, Flex, Image, Link, Text } from "@chakra-ui/react";
+import { Avatar, Box, Button, Flex, Image, Link, Menu, MenuButton, MenuItem, MenuList, Text } from "@chakra-ui/react";
 import { fontFamily } from "../../style/font";
 import { useContext } from "react";
 import LandingContext from "../../context/LandingContext";
 import { useNavigate } from "react-router-dom";
+import { User } from "../../response/response";
 
 interface NavbarProps{
     isAuthenticated: boolean,
@@ -29,6 +30,22 @@ const Navbar = ({isAuthenticated, type}: NavbarProps) => {
     const color = greaterThanHeader || type == "other"? "#0053AD" : "white";
     const backgroundColor = greaterThanHeader || type == "other" ? "white" : "transparent";
     const navigate = useNavigate();
+    let user: User = {
+        nama: "",
+        createdAt: "",
+        email: "",
+        id: -1,
+        noTelp: "",
+        updatedAt: "",
+        verified: "",
+        nomorKtp: ""
+    };
+    if(isAuthenticated){
+        const storageUser = localStorage.getItem("user");
+        if(storageUser){
+            user = JSON.parse(storageUser) as User;
+        }
+    }
     return(
         <Flex
         position={{
@@ -195,7 +212,80 @@ const Navbar = ({isAuthenticated, type}: NavbarProps) => {
                         Notifikasi
                     </Link>
                 </Flex>
-                {!isAuthenticated && <Flex
+                {isAuthenticated ? 
+                <Flex
+                width={{
+                    "lg" : "25%"
+                }}
+                justifyContent="center"
+                alignItems="center"
+                marginRight={{
+                    "lg" : "3rem"
+                }}
+                marginBottom={{
+                    "lg" : "1.25rem"
+                }}
+                paddingLeft={{
+                    "lg" : "6rem"
+                }}
+                >
+                    <Menu>
+                        <MenuButton>
+                            <Avatar name={user.nama}/>
+                        </MenuButton>
+                        <MenuList 
+                        marginTop={{
+                            "lg" : "1rem"
+                        }}>
+                            <MenuItem>
+                                <Link
+                                fontSize={{
+                                    "lg" : "0.875rem"
+                                }}
+                                fontFamily={fontFamily}
+                                fontWeight={400}>Cek Booking</Link>
+                            </MenuItem>
+                            <MenuItem>
+                                <Link
+                                fontSize={{
+                                    "lg" : "0.875rem"
+                                }}
+                                fontFamily={fontFamily}
+                                fontWeight={400}>Cek Refund</Link>
+                            </MenuItem>
+                            <MenuItem>
+                                <Link
+                                fontSize={{
+                                    "lg" : "0.875rem"
+                                }}
+                                fontFamily={fontFamily}
+                                fontWeight={400}>Riwayat Pesanan</Link>
+                            </MenuItem>
+                            <MenuItem>
+                                <Link
+                                fontSize={{
+                                    "lg" : "0.875rem"
+                                }}
+                                fontFamily={fontFamily}
+                                fontWeight={400}>Akun Saya</Link>
+                            </MenuItem>
+                            <MenuItem
+                            onClick={() => {
+                                localStorage.clear();
+                                navigate("/");
+                            }}>
+                                <Link
+                                fontSize={{
+                                    "lg" : "0.875rem"
+                                }}
+                                fontFamily={fontFamily}
+                                fontWeight={400}>Keluar</Link>
+                            </MenuItem>
+                        </MenuList>
+                    </Menu>
+                </Flex> 
+                : 
+                <Flex
                 width={{
                     "lg" : "25%"
                 }}
@@ -215,7 +305,10 @@ const Navbar = ({isAuthenticated, type}: NavbarProps) => {
                    marginRight={{
                     "lg" : "25px"
                    }}
-                   backgroundColor="#FCFCFC">
+                   backgroundColor="#FCFCFC"
+                   onClick={() => {
+                    navigate("/login");
+                   }}>
                     <Text
                     fontFamily={fontFamily}
                     color="#0053AD">Masuk</Text>
