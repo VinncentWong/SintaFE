@@ -7,21 +7,23 @@ export interface DestinationCardProps{
     destinationName: string,
     destinationCity: string,
     destinationProvince: string,
-    destinationPrice: number
+    destinationPrice: number,
+    width: string,
+    height: string,
 }
 
 const DestinationCard = ({
-    imageLink, typeDestination, destinationName, destinationCity, destinationProvince, destinationPrice
+    imageLink, typeDestination, destinationName, destinationCity, destinationProvince, destinationPrice, width, height
 }: DestinationCardProps) => {
     return(
         <Flex
         boxShadow="0px 2px 4px rgba(171, 190, 209, 0.6)"
         borderRadius="12px"
         width={{
-            "lg" : "23%"
+            "lg" : width
         }}
         height={{
-            "lg" : "23%"
+            "lg" : height
         }}
         flexDir="column">
             <Box
