@@ -10,8 +10,8 @@ import { useNavigate } from "react-router-dom";
 import { User } from "../../response/response";
 
 interface NavbarProps{
-    isAuthenticated: boolean,
-    type: "landing" | "other",
+    isAuthenticated?: boolean,
+    type: "landing" | "myaccount" |"other",
 }
 
 const Navbar = ({isAuthenticated, type}: NavbarProps) => {
@@ -26,9 +26,9 @@ const Navbar = ({isAuthenticated, type}: NavbarProps) => {
             greaterThanHeader = false;
         }
     }
-    const logoSinta = greaterThanHeader || type == "other"? colorLogo: logo;
-    const color = greaterThanHeader || type == "other"? "#0053AD" : "white";
-    const backgroundColor = greaterThanHeader || type == "other" ? "white" : "transparent";
+    const logoSinta = greaterThanHeader || (type === "other" || type === "myaccount" ) ? colorLogo: logo;
+    const color = greaterThanHeader || type === "other"? "#0053AD" : "white";
+    const backgroundColor = greaterThanHeader || (type === "other" || type === "myaccount") ? "white" : "transparent";
     const navigate = useNavigate();
     let user: User = {
         nama: "",
@@ -37,7 +37,7 @@ const Navbar = ({isAuthenticated, type}: NavbarProps) => {
         id: -1,
         noTelp: "",
         updatedAt: "",
-        verified: "",
+        verified: "MENUNGGU",
         nomorKtp: ""
     };
     if(isAuthenticated){
@@ -58,7 +58,8 @@ const Navbar = ({isAuthenticated, type}: NavbarProps) => {
             "lg" : "start"
         }}
         zIndex="2"
-        backgroundColor={backgroundColor}>
+        backgroundColor={backgroundColor}
+        boxShadow="0px 2px 4px rgba(171, 190, 209, 0.6)">
             <Flex
             width={{
                 "lg" : "20%"
@@ -74,7 +75,7 @@ const Navbar = ({isAuthenticated, type}: NavbarProps) => {
                     }}/>
                 </Link>
             </Flex>
-            <Flex
+            {type !== "myaccount" && <Flex
             width="70%"
             marginLeft={{
                 "lg" : "10rem"
@@ -267,7 +268,8 @@ const Navbar = ({isAuthenticated, type}: NavbarProps) => {
                                     "lg" : "0.875rem"
                                 }}
                                 fontFamily={fontFamily}
-                                fontWeight={400}>Akun Saya</Link>
+                                fontWeight={400}
+                                href={`/myaccount/detail/${user.id}`}>Akun Saya</Link>
                             </MenuItem>
                             <MenuItem
                             onClick={() => {
@@ -323,7 +325,7 @@ const Navbar = ({isAuthenticated, type}: NavbarProps) => {
                     color="white">Daftar</Text>
                    </Button>
                 </Flex>}
-            </Flex>
+            </Flex>}
         </Flex>
     );
 };
