@@ -1,13 +1,13 @@
-import { BrowserRouter, Navigate, redirect, Route, Routes, useNavigate } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import JadiPartnerSintaPage from "./pages/JadiPartnerSintaPage";
 import LandingPage from "./pages/LandingPage";
 import PaketWisataPage from "./pages/PaketWisataPage";
 import { PaketWisataRouter } from "./router/PaketWisataRouter";
 import AuthenticationPage from "./pages/AuthenticationPage";
-import { useContext, useState } from "react";
+import AccountDetailsPage from "./pages/AccountDetailsPage";
+import PrivateRouter from "./router/PrivateRouter";
 
 function App() {
-
   return (
     <BrowserRouter>
         <Routes>
@@ -21,6 +21,9 @@ function App() {
           <Route path="/register" element={<AuthenticationPage type="register"/>}/>
           <Route path="/login" element={<AuthenticationPage type="login"/>}/>
           <Route path="/reset" element={<AuthenticationPage type="reset"/>}/>
+          <Route element={<PrivateRouter/>}>
+            <Route path="/myaccount/detail/:userId" element={<AccountDetailsPage type="myaccount"/>}/>
+          </Route>
         </Routes>
     </BrowserRouter>
   );
