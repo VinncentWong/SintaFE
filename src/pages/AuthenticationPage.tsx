@@ -1,9 +1,9 @@
-import { Box, Button, Flex, Image, Input, Link, Text, useToast } from "@chakra-ui/react";
+import { Box, Button, Flex, Image, Link, Text, useToast } from "@chakra-ui/react";
 import background from "../images/register_login/background.png";
 import logo from "../images/register_login/sinta.png";
 import icon from "../images/register_login/truk.png";
 import { fontFamily } from "../style/font";
-import React, { ChangeEvent, useContext, useState } from "react";
+import React, {useState } from "react";
 import GoogleIcon from "../icon/google_icon";
 import { ChevronLeftIcon } from "@chakra-ui/icons";
 import validator from "validator";
@@ -11,64 +11,10 @@ import api from "../api/api";
 import Response, { User } from "../response/response";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import InputSinta from "../components/input";
 
 interface AuthenticationProps{
     type: "register" | "login" | "reset"
-}
-
-interface InputSintaProps{
-    description: string,
-    placeholder: string,
-    notes: string,
-    value: string,
-    onChange: (e: ChangeEvent<HTMLInputElement>) => void,
-    width: string,
-    type: React.HTMLInputTypeAttribute
-}
-
-const InputSinta = ({description, notes, onChange, placeholder, value, width, type}: InputSintaProps) => {
-    return (
-        <Box
-                width={{
-                    "lg" : "100%"
-                }}
-                marginTop={{
-                    "lg" : "1rem"
-                }}
-                marginBottom={{
-                    "lg" : "1rem"
-                }}>
-                    <Text
-                    fontFamily={fontFamily}
-                    fontWeight={500}
-                    fontSize="1rem"
-                    marginY={{
-                        "lg" : "0.5rem"
-                    }}>
-                        {description}<span style={{
-                        "color" : "#E12C1F"
-                    }}>*</span></Text>
-                    <Input 
-                    placeholder={placeholder}
-                    _placeholder={{
-                        "color" : "#717171"
-                    }}
-                    width={{
-                        "lg" : width
-                    }}
-                    marginBottom={{
-                        "lg" : "0.5rem"
-                    }}
-                    value={value}
-                    onChange={onChange}
-                    type={type}/>
-                    <Text
-                    fontFamily={fontFamily}
-                    fontWeight={400}
-                    fontSize="0.75rem"
-                    color="#89939E">{notes}</Text>
-            </Box>
-    );
 }
 
 const SyaratKebijakan = ({width, marginLeft}: {width: string, marginLeft?: string}) => {
@@ -322,8 +268,8 @@ const AuthenticationPage = ({type}: AuthenticationProps) => {
             });
             setServerLoading(false);
             if(result.data.success){
-                const jwtToken = result.data.jwt_token as string;
-                const user = result.data.user as User;
+                const jwtToken = result.data.data?.jwt_token as string;
+                const user = result.data.data?.user as User;
                 localStorage.setItem("jwtToken", jwtToken);
                 localStorage.setItem("user", JSON.stringify(user));
             }
