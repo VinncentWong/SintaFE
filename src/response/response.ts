@@ -4,17 +4,15 @@ export interface User{
     nomorKtp?: string,
     nama: string,
     noTelp: string,
-    verified: string,
+    verified: "TERVERIFIKASI" | "MENUNGGU" | "TIDAK_TERVERIFIKASI",
     createdAt: string,
     updatedAt: string
 }
 
-interface Response{
+interface UserResponse{
     message: string,
     success: boolean,
-    data?: null,
-    user?: User,
-    jwt_token?: string
+    data?: {user: User, jwt_token?: string}
 }
 
-export default Response;
+export default UserResponse;
