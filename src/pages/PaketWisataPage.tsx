@@ -3,16 +3,16 @@ import Carousel from "../components/carousel";
 import Footer from "../components/footer";
 import Navbar from "../components/navbar";
 import auth_util from "../util/auth_util";
-import Filter from "../components/filter";
+
 import gambar from "../images/sample/destination1.png";
 import data from "../data/card_paketwisata.json";
 import DestinationCard from "../components/card";
 import { useEffect, useState } from "react";
-import { ArrowDownIcon } from "@chakra-ui/icons";
 import randomNumber from "../util/random";
 import apiLokasi from "../api/api_lokasi";
 import { KotaKabupaten, KotaKabupatenResponse, Provinsi, ProvinsiResponse } from "../response/lokasi";
 import { fontFamily } from "../style/font";
+import Filter from "../components/filter";
 
 const PaketWisataPage = () => {
 
