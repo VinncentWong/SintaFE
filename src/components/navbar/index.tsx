@@ -2,22 +2,31 @@ import colorLogo from "../../images/logo/logo_color.png";
 import logo from "../../images/logo/logo.png";
 import cariColor from "../../images/logo/cari_color.png";
 import jabatTanganColor from "../../images/logo/jabat_tangan_color.png";
-import { Avatar, Box, Button, Flex, Image, Link, Menu, MenuButton, MenuItem, MenuList, Text } from "@chakra-ui/react";
+import { Avatar, Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Flex, Image, Link, Menu, MenuButton, MenuItem, MenuList, Text } from "@chakra-ui/react";
 import { fontFamily } from "../../style/font";
 import { useContext } from "react";
 import LandingContext from "../../context/LandingContext";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { User } from "../../response/response";
+import { ChevronRightIcon } from "@chakra-ui/icons";
+import PemesananPaketWisataContext from "../../context/PemesananPaketWisataContext";
+import auth_util, { getAgenTravel } from "../../util/auth_util";
+import AgenTravelContext from "../../context/AgenTravelContext";
 
 interface NavbarProps{
     isAuthenticated?: boolean,
-    type: "landing" | "myaccount" |"other",
+    type: "landing" | "myaccount" | "pesanpaketwisata" | "belipremium" |"other",
+    typeUser?: "agentravel" | "user"
 }
 
-const Navbar = ({isAuthenticated, type}: NavbarProps) => {
+const Navbar = ({isAuthenticated, type, typeUser}: NavbarProps) => {
+    const pemesananWisataContext = useContext(PemesananPaketWisataContext);
+    const agenTravelContext = useContext(AgenTravelContext);
+    const currentLocation = useLocation().pathname;
     const value = useContext(LandingContext);
     const header = document.getElementById("header");
     const bottom = header?.getBoundingClientRect().bottom;
+    const agenTravel = getAgenTravel();
     let greaterThanHeader = false;
     if(bottom){
         if(value.position >= bottom){
@@ -26,9 +35,9 @@ const Navbar = ({isAuthenticated, type}: NavbarProps) => {
             greaterThanHeader = false;
         }
     }
-    const logoSinta = greaterThanHeader || (type === "other" || type === "myaccount" ) ? colorLogo: logo;
+    const logoSinta = greaterThanHeader || (type !== "landing" ) ? colorLogo: logo;
     const color = greaterThanHeader || type === "other"? "#0053AD" : "white";
-    const backgroundColor = greaterThanHeader || (type === "other" || type === "myaccount") ? "white" : "transparent";
+    const backgroundColor = greaterThanHeader || (type !== "landing") ? "white" : "transparent";
     const navigate = useNavigate();
     let user: User = {
         nama: "",
@@ -75,7 +84,7 @@ const Navbar = ({isAuthenticated, type}: NavbarProps) => {
                     }}/>
                 </Link>
             </Flex>
-            {type !== "myaccount" && <Flex
+            {(type !== "myaccount" && type !== "pesanpaketwisata" && typeUser !== "agentravel" && type !== "belipremium") && <Flex
             width="70%"
             marginLeft={{
                 "lg" : "10rem"
@@ -273,7 +282,7 @@ const Navbar = ({isAuthenticated, type}: NavbarProps) => {
                             </MenuItem>
                             <MenuItem
                             onClick={() => {
-                                localStorage.clear();
+                                localStorage.removeItem("user");
                                 navigate("/");
                             }}>
                                 <Link
@@ -326,6 +335,93 @@ const Navbar = ({isAuthenticated, type}: NavbarProps) => {
                    </Button>
                 </Flex>}
             </Flex>}
+            {
+                type === "pesanpaketwisata" && 
+                <Breadcrumb alignSelf="center" separator={<Box maxWidth={{"lg" : "100%"}}><ChevronRightIcon boxSize={{"lg" : "8"}}/></Box>} marginLeft={{"lg" : "5rem"}}>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink>
+                            <Text
+                            fontFamily={fontFamily}
+                            fontSize={{"lg" : "1.25rem"}}
+                            fontWeight={pemesananWisataContext.currentPosition == 1 ? "600" : "400"}>
+                                1.Pesan
+                            </Text>
+                        </BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink>
+                            <Text
+                            fontFamily={fontFamily}
+                            fontSize={{"lg" : "1.25rem"}}
+                            fontWeight={pemesananWisataContext.currentPosition == 2 ? "600" : "400"}>
+                                2.Bayar
+                            </Text>
+                        </BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink>
+                            <Text
+                            fontFamily={fontFamily}
+                            fontSize={{"lg" : "1.25rem"}}
+                            fontWeight={pemesananWisataContext.currentPosition == 3 ? "600" : "400"}>
+                                3.Selesai
+                            </Text>
+                        </BreadcrumbLink>
+                    </BreadcrumbItem>
+                </Breadcrumb>
+            }
+            {
+                typeUser == "agentravel" && 
+                <Flex width={{"lg" : "100%"}} justifyContent="flex-end" marginRight={{"lg" : "5rem"}}>
+                    <Menu>
+                        <MenuButton>
+                            <Avatar name={agenTravel.namaBadanUsaha}/>
+                        </MenuButton>
+                        <MenuList 
+                        marginTop={{
+                            "lg" : "1rem"
+                        }}>
+                            <MenuItem
+                            onClick={() => {
+                                localStorage.removeItem("agenTravel");
+                                navigate("/");
+                            }}>
+                                <Link
+                                fontSize={{
+                                    "lg" : "0.875rem"
+                                }}
+                                fontFamily={fontFamily}
+                                fontWeight={400}>Keluar</Link>
+                            </MenuItem>
+                        </MenuList>
+                    </Menu>
+                </Flex>
+            }
+            {
+                type === "belipremium" && 
+                <Breadcrumb alignSelf="center" separator={<Box maxWidth={{"lg" : "100%"}}><ChevronRightIcon boxSize={{"lg" : "8"}}/></Box>} marginLeft={{"lg" : "5rem"}}>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink>
+                            <Text
+                            fontFamily={fontFamily}
+                            fontSize={{"lg" : "1.25rem"}}
+                            fontWeight={agenTravelContext.currentPosition == 1 ? "600" : "400"}>
+                                1.Bayar
+                            </Text>
+                        </BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink>
+                            <Text
+                            fontFamily={fontFamily}
+                            fontSize={{"lg" : "1.25rem"}}
+                            fontWeight={agenTravelContext.currentPosition == 2 ? "600" : "400"}>
+                                2.Selesai
+                            </Text>
+                        </BreadcrumbLink>
+                    </BreadcrumbItem>
+                </Breadcrumb>
+            }
         </Flex>
     );
 };
