@@ -10,6 +10,7 @@ import auth_util from "../util/auth_util";
 import cardData from "../data/card_paketwisata.json";
 import gambar from "../images/sample/destination1.png";
 import { PaketWisata } from "../response/paket_wisata";
+import randomNumber from "../util/random";
 
 const LandingPage = () => {
 
@@ -23,6 +24,7 @@ const LandingPage = () => {
         typeDestination={d.lama_paket_wisata + " Trip"}
         width="33%"
         height="23%"
+        key={randomNumber()}
         />
     });
 
@@ -35,7 +37,7 @@ const LandingPage = () => {
         <LandingContext.Provider value={{
             position: position,
         }}>
-            <Navbar isAuthenticated={auth_util()} type="landing"/>
+            <Navbar isAuthenticated={auth_util()} type="landing" typeUser="user"/>
             <Header type="landing"/>
             <DestinationGroup 
             title="Pilihan destinasi menarik di dalam negeri!"

@@ -7,7 +7,7 @@ import auth_util from "../util/auth_util";
 const JadiPartnerSintaPage = () => {
     return(
         <Box>
-            <Navbar isAuthenticated={auth_util()} type="other"/>
+            <Navbar isAuthenticated={auth_util()} type="other" typeUser="user"/>
             <Header type="jadipartner"/>
             <Footer/>
         </Box>

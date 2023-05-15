@@ -73,7 +73,7 @@ const PaketWisataPage = () => {
     if(loadLokasiSelesai){
         return(
             <Box>
-            <Navbar isAuthenticated={auth_util()} type="other"/>
+            <Navbar isAuthenticated={auth_util()} type="other" typeUser="user"/>
             <Carousel/>
             <Flex gap={{"lg" : "2rem"}} marginBottom={{"lg" : "2rem"}}>
                 <Filter provinsi={provinsi} kabupatenKota={kabupatenKota}/>

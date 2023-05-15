@@ -1,7 +1,7 @@
-import { Box, Button, Flex, FlexProps, Image, Link, Text, useToast } from "@chakra-ui/react";
-import background from "../images/register_login/background.png";
+import { Box, Button, Flex, Image, Link, Text, useToast } from "@chakra-ui/react";
+import background from "../images/agen_travel_register_login/background.png"
+import icon from "../images/agen_travel_register_login/icon.png";
 import logo from "../images/register_login/sinta.png";
-import icon from "../images/register_login/truk.png";
 import { fontFamily } from "../style/font";
 import React, {useState } from "react";
 import GoogleIcon from "../icon/google_icon";
@@ -12,6 +12,7 @@ import Response, { User } from "../response/response";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import InputSinta from "../components/input";
+import { AgenTravel, AgenTravelData, AgenTravelResponse } from "../response/agen_travel";
 
 interface AuthenticationProps{
     type: "register" | "login" | "reset"
@@ -93,11 +94,9 @@ interface TopWithBackSymbolProps{
     description: string,
     href?: string
     onClick?: (e: React.MouseEvent<HTMLElement>) => void
-    additionalProps?: FlexProps 
-    additionalChevronProps?: number
 }
 
-export const TopWithBackSymbol = ({description, href, onClick, additionalProps, additionalChevronProps}: TopWithBackSymbolProps) => {
+const TopWithBackSymbol = ({description, href, onClick}: TopWithBackSymbolProps) => {
     return(
         <Flex
             width={{
@@ -105,8 +104,7 @@ export const TopWithBackSymbol = ({description, href, onClick, additionalProps, 
             }}
             marginTop={{
                 "lg" : "3rem"
-            }}
-            {...additionalProps}>
+            }}>
                 <Link 
                 style={{
                     "width" : "15%"
@@ -118,7 +116,7 @@ export const TopWithBackSymbol = ({description, href, onClick, additionalProps, 
                 onClick={onClick}>
                     <ChevronLeftIcon
                         w={{
-                            "lg" : additionalChevronProps ?? 10
+                            "lg" : 10
                         }}
                         h={{
                             "lg" : 10
@@ -137,11 +135,11 @@ export const TopWithBackSymbol = ({description, href, onClick, additionalProps, 
     )
 };
 
-const AuthenticationPage = ({type}: AuthenticationProps) => {
+const AgenTravelAuthenticationPage = ({type}: AuthenticationProps) => {
     const [pressSecondPage, setpressSecondPage] = useState<boolean>(false);
     const [email, setEmail] = useState<string>("");
     const [noTelp, setNoTelp] = useState<string>("");
-    const [nama, setNama] = useState<string>("");
+    const [badanUsaha, setBadanUsaha] = useState<string>("");
     const [kataSandi, setKataSandi] = useState<string>("");
     const [konfKataSandi, setKonfKataSandi] = useState<string>("");
     const [serverLoading, setServerLoading] = useState<boolean>(false);
@@ -160,8 +158,8 @@ const AuthenticationPage = ({type}: AuthenticationProps) => {
         if(!noTelp.startsWith("08")){
             errMessage.push("Nomor telepon harus berawalan 08");
         }
-        if(nama.length < 4){
-            errMessage.push("Panjang minimal nama adalah 4");
+        if(badanUsaha.length < 4){
+            errMessage.push("Panjang minimal nama badan usaha adalah 4");
         }
         if(kataSandi.length < 4){
             errMessage.push("Panjang minimal kata sandi adalah 4");
@@ -189,11 +187,12 @@ const AuthenticationPage = ({type}: AuthenticationProps) => {
         } else {
             setServerLoading(true);
             try{
-                const result = await api.post<Response>("/user/create", {
-                    "nama" : nama,
-                    "email" : email,
+                console.log(`email = ${email}, badanUsaha = ${badanUsaha}, password = ${kataSandi}, noTelepon = ${noTelp}`);
+                const result = await api.post<AgenTravelResponse>("/agentravel/create", {
+                    "emailPerusahaan" : email,
+                    "namaBadanUsaha" : badanUsaha,
                     "password" : kataSandi,
-                    "noTelepon" : noTelp
+                    "noTeleponPerusahaan" : noTelp
                 });
                 setServerLoading(false);
                 if(result.data.success){
@@ -211,7 +210,7 @@ const AuthenticationPage = ({type}: AuthenticationProps) => {
                         position: "top-right"
                     });
                     setTimeout(() => {
-                        navigate("/");
+                        navigate("/agentravel/login");
                     }, 5000);
                 } else {
                     toast({
@@ -265,16 +264,16 @@ const AuthenticationPage = ({type}: AuthenticationProps) => {
     const loginSubmitHandler = async () => {
         setServerLoading(true);
         try{
-            const result = await api.post<Response>("/user/login", {
-                "email" : email,
+            const result = await api.post<AgenTravelResponse>("/agentravel/login", {
+                "emailPerusahaan" : email,
                 "password" : kataSandi
             });
             setServerLoading(false);
             if(result.data.success){
                 const jwtToken = result.data.data?.jwt_token as string;
-                const user = result.data.data?.user as User;
-                localStorage.setItem("jwtToken", jwtToken);
-                localStorage.setItem("user", JSON.stringify(user));
+                const agenTravel = result.data.data?.agentravel as AgenTravel;
+                localStorage.setItem("jwtTokenAgenTravel", jwtToken);
+                localStorage.setItem("agenTravel", JSON.stringify(agenTravel));
             }
             toast({
                 isClosable: true,
@@ -288,7 +287,7 @@ const AuthenticationPage = ({type}: AuthenticationProps) => {
                 position: "top-right"
             });
             setTimeout(() => {
-                navigate("/");
+                navigate("/agentravel/home");
             }, 3000);
         } catch(e){
             setServerLoading(false);
@@ -391,7 +390,7 @@ const AuthenticationPage = ({type}: AuthenticationProps) => {
                             "color" : "#0053AD",
                             "fontWeight" : "600"
                         }}
-                        href="/login"> Log in aja</a>
+                        href="/agentravel/login"> Log in aja</a>
                     </Text>
                 </Box>
             </Box>
@@ -422,13 +421,13 @@ const AuthenticationPage = ({type}: AuthenticationProps) => {
                         width="95%"
                         type="text"/>
                         <InputSinta
-                        description="Nama Lengkap"
-                        notes="Gunakan nama lengkap anda sesuai dengan KTP/Paspor/SIM"
+                        description="Nama Badan Usaha"
+                        notes="Pastikan nama badan usaha anda telah terdaftar secara resmi"
                         onChange={(e) => {
-                            setNama(e.currentTarget.value);
+                            setBadanUsaha(e.currentTarget.value);
                         }}
-                        value={nama}
-                        placeholder="Masukkan nama lengkap anda disini"
+                        value={badanUsaha}
+                        placeholder="Masukkan nama badan usaha resmi anda disini"
                         width="95%"
                         type="text"/>
                         <InputSinta
@@ -580,8 +579,7 @@ const AuthenticationPage = ({type}: AuthenticationProps) => {
                 }}
                 left={{
                     "lg" : "29.5rem"
-                }}
-                href="/reset">
+                }}>
                     <Text
                     fontFamily={fontFamily}
                     color="#0053AD"
@@ -634,7 +632,7 @@ const AuthenticationPage = ({type}: AuthenticationProps) => {
                     "lg" : "1.1rem"
                 }}>Belum punya akun? </Text>
                 <Link
-                href="/register"> 
+                href="/agentravel/register"> 
                     <Text
                     fontFamily={fontFamily}
                     fontSize={{
@@ -675,7 +673,7 @@ const AuthenticationPage = ({type}: AuthenticationProps) => {
                     "lg" : "absolute"
                 }}
                 left={{
-                    "lg" : "15rem"
+                    "lg" : "18rem"
                 }}
                 top={{
                     "lg" : "3rem"
@@ -705,14 +703,16 @@ const AuthenticationPage = ({type}: AuthenticationProps) => {
                     <Text
                     fontFamily={fontFamily}
                     fontSize={{
-                        "lg" : "1.5rem"
+                        "lg" : "2.25rem"
                     }}
                     fontWeight={{
                         "lg" : "600"
                     }}
                     marginY={{
                         "lg" : "1rem"
-                    }}>Temukan beragam paket wisata menarik dengan harga yang terjangkau</Text>
+                    }}>
+                        Daftarkan Layanan Travel Anda Pada Platform Kami
+                    </Text>
                     <Text
                     fontFamily={fontFamily}
                     fontSize={{
@@ -721,8 +721,11 @@ const AuthenticationPage = ({type}: AuthenticationProps) => {
                     fontWeight={{
                         "lg" : "600"
                     }}
-                    color="#717171">
-                        Buat akun agar dapat memesan beragam paket wisata menarik 🥰
+                    color="#717171"
+                    width={{"lg" : "85%"}}
+                    alignSelf="center">
+                        Ayo, bergabung bersama SINTA dan bersiaplah untuk menyambut lebih
+                        banyak wisatawan yang berlibur menggunakan layanan travel Anda  
                     </Text>
                 </Flex>
                 <Box
@@ -730,15 +733,18 @@ const AuthenticationPage = ({type}: AuthenticationProps) => {
                     "lg" : "absolute"
                 }}
                 top={{
-                    "lg" : "16rem"
+                    "lg" : "20rem"
                 }}
                 width={{
                     "lg" : "100%"
+                }}
+                left={{
+                    "lg" : "8rem"
                 }}>
                     <Image 
                     src={icon} 
                     width={{
-                        "lg" : "100%"
+                        "lg" : "55%"
                     }}/>
                 </Box>
             </Box>
@@ -755,4 +761,4 @@ const AuthenticationPage = ({type}: AuthenticationProps) => {
     );
 };
 
-export default AuthenticationPage;
+export default AgenTravelAuthenticationPage;

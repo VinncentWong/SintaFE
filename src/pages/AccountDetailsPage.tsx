@@ -204,7 +204,7 @@ const AccountDetailsPage = ({type}: {type: AccountDetailsType}) => {
     if(load){
         return(
             <Box width={{"lg" : "100%"}}>
-                <Navbar type="myaccount"/>
+                <Navbar type="myaccount" typeUser="user"/>
                 <Flex 
                 width={{"lg" : "100%"}}
                 position="relative"

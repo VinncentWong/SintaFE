@@ -57,7 +57,7 @@ const DetailPaketWisata = ({type}: DetailPaketWisataProps) => {
     }
     return(
         <Box>
-            <Navbar isAuthenticated={false} type="other"/>
+            <Navbar isAuthenticated={false} type="other" typeUser="user"/>
             {loadComplete ? 
                 <Box>
                     <Image 
