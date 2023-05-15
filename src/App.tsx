@@ -6,6 +6,19 @@ import { PaketWisataRouter } from "./router/PaketWisataRouter";
 import AuthenticationPage from "./pages/AuthenticationPage";
 import AccountDetailsPage from "./pages/AccountDetailsPage";
 import PrivateRouter from "./router/PrivateRouter";
+import PemesananPaketWisataPage from "./pages/PemesananPaketWisataPage";
+import PemesananPaketWisataRouter from "./router/PemesananPaketWisataRouter";
+import AgenTravelAuthenticationPage from "./pages/AgenTravelAuthenticationPage";
+import PrivateRouterAgenTravel from "./router/PrivateRouterAgenTravel";
+import AgenTravelHomePage from "./pages/AgenTravelHomePage";
+import AgenTravelPaketWisataPage from "./pages/AgenTravelPaketWisataPage";
+import AgenTravelPortofolioPage from "./pages/AgenTravelPortofolioPage";
+import AgenTravelPenjualanSayaPage from "./pages/AgenTravelPenjualanSayaPage";
+import AgenTravelPendapatanSayaPage from "./pages/AgenTravelPendapatanSayaPage";
+import AgenTravelBankSayaPage from "./pages/AgenTravelBankSayaPage";
+import AgenTravelProfilSayaPage from "./pages/AgenTravelProfilSayaPage";
+import AgenTravelPremiumPage from "./pages/AgenTravelPremiumPage";
+import BuyPremiumPage from "./pages/BuyPremiumPage";
 
 function App() {
   return (
@@ -23,6 +36,20 @@ function App() {
           <Route path="/reset" element={<AuthenticationPage type="reset"/>}/>
           <Route element={<PrivateRouter/>}>
             <Route path="/myaccount/detail/:userId" element={<AccountDetailsPage type="myaccount"/>}/>
+            <Route path="/paketwisata/pesan/:paketWisataId" element={<PemesananPaketWisataRouter/>}/>
+          </Route>
+          <Route path="/agentravel/register" element={<AgenTravelAuthenticationPage type="register"/>}/>
+          <Route path="/agentravel/login" element={<AgenTravelAuthenticationPage type="login"/>}/>
+          <Route element={<PrivateRouterAgenTravel/>}>
+            <Route path="/agentravel/home" element={<AgenTravelHomePage type="home"/>}/>
+            <Route path="/agentravel/paketwisata" element={<AgenTravelPaketWisataPage type="paketwisata"/>}/>
+            <Route path="/agentravel/portofolio" element={<AgenTravelPortofolioPage type="portofolio"/>}/>
+            <Route path="/agentravel/penjualan" element={<AgenTravelPenjualanSayaPage type="penjualan"/>}/>
+            <Route path="/agentravel/pendapatan" element={<AgenTravelPendapatanSayaPage type="pendapatan"/>}/>
+            <Route path="/agentravel/bank" element={<AgenTravelBankSayaPage type="bank"/>}/>
+            <Route path="/agentravel/profil" element={<AgenTravelProfilSayaPage type="profil"/>}/>
+            <Route path="/agentravel/premium" element={<AgenTravelPremiumPage type="premium"/>}/>
+            <Route path="/agentravel/belipremium" element={<BuyPremiumPage/>}/>
           </Route>
         </Routes>
     </BrowserRouter>
