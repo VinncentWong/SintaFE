@@ -1,3 +1,5 @@
+import { AgenTravel } from "./agen_travel"
+
 export interface PaketWisata{
     id: number,
     nama: string,
@@ -6,4 +8,50 @@ export interface PaketWisata{
     harga: number,
     lama_paket_wisata: string,
     gambar: string
+}
+
+export interface PaketWisataResponse{
+    message: string,
+    success: boolean,
+    data: PaketWisataObj
+}
+
+export interface PaketWisataObj{
+    paket_wisata: PaketWisatas[]
+}
+
+export interface PaketWisatas{
+    id: number,
+    nama: string,
+    durasiPaketWisataHari: number,
+    durasiPaketWisataMalam: number,
+    linkGroup: string,
+    lokasiPenjemputan: string,
+    jenisKelengkapan: string,
+    deskripsi: string,
+    infoPenting: string,
+    rundown: string,
+    fasilitas: string,
+    infoHarga: string,
+    createdAt: string,
+    updatedAt: string,
+    deletedAt: string,
+    tipePaketWisata: string,
+    domain: string,
+    detailTanggal: DetailTanggal[],
+    hargaPaketWisata: HargaPaketWisata[],
+    agenTravel: AgenTravel
+}
+
+export interface DetailTanggal{
+    id: number,
+    tanggalMulai: string,
+    tanggalPulang: string,
+}
+
+export interface HargaPaketWisata{
+    id: number,
+    tipeOrang: string,
+    harga: number,
+    kuota: number
 }
