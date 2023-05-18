@@ -1,4 +1,4 @@
-import { Box, Image, SkeletonCircle, SkeletonText } from "@chakra-ui/react";
+import { Box, Image, SkeletonCircle, SkeletonText, useToast } from "@chakra-ui/react";
 import Footer from "../components/footer";
 import Navbar from "../components/navbar";
 import image from "../images/detail_wisata/main_image.png";
@@ -8,70 +8,108 @@ import DeskripsiPaketWisata from "../components/paket_wisata_detail/paket_wisata
 import { PaketWisataType } from "../router/PaketWisataRouter";
 import PaketWisataInfoPenting from "../components/paket_wisata_detail/paket_wisata_infopenting";
 import PaketWisataFasilitas from "../components/paket_wisata_detail/paket_wisata_fasilitas";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import WisataIdContext from "../context/WisataIdContext";
+import axios from "axios";
+import api from "../api/api";
+import { SinglePaketWisataResponse, PaketWisatas } from "../response/paket_wisata";
+import Rundown from "../components/paket_wisata_detail/paket_wisata_rundown";
 
 interface DetailPaketWisataProps{
     type: PaketWisataType
 }
 
 const DetailPaketWisata = ({type}: DetailPaketWisataProps) => {
-    const loadComplete = useContext(WisataIdContext).loadComplete;
     let showedElement: JSX.Element;
     let nonUnionType: string;
-    
-    const fasilitasTermasukTempData = [
-        "Harga Tiket Masuk Kawasan CMC (Pantai Gatra, Pantai Clungup, dan Pantai Tiga Warna)",
-        "Transportasi Selama Tour Sesuai Jumlah Peserta",
-        "Antar Jemput sesuai tempat kesepakatan",
-        "Driver (Makan, Uang tips, Rokok, Dll)",
-        "Parkir & BBM Lokal Guide Pantai Tiga Warna",
-        "Mineral Selama Tour"
-    ];
-    const fasilitasTidakTermasukTempData = [
-        "Ojek PP dari Parkiran Mobil menuju Loket Satu (Rp. 10.000/Org)",
-        "Sewa Peralatan Diving/Selam (Rp. 20.000/Org)",
-        "Sewa Perahu Kano (Rp. 25.000/Org)",
-        "Kamar Mandi",
-        "Peralatan Mandi",
-        "Beli Oleh - oleh"
-    ];
+    const paketWisataContext = useContext(WisataIdContext)
+    const [load, setLoad] = useState<boolean>(false);
+    const [paketWisata, setPaketWisata] = useState<PaketWisatas>();
+    const loadComplete = paketWisataContext.loadComplete;
+    const toast = useToast();
+    useEffect(() => {
+        setLoad(true);
+        const fetchData = async () => {
+            try{
+                const paketWisata = await api.get<SinglePaketWisataResponse>(`/paketwisata/get/paketwisata/${paketWisataContext.id}`);
+                const data = paketWisata.data.data;
+                if(data){
+                    if(data.paket_wisata.tipePaketWisata === "OPEN"){
+                        data.paket_wisata.tipePaketWisata = "Open";
+                    } else {
+                        data.paket_wisata.tipePaketWisata = "Private";
+                    }
+                }
+                setPaketWisata(paketWisata.data.data?.paket_wisata as PaketWisatas)
+            } catch(e){
+                if(axios.isAxiosError<SinglePaketWisataResponse>(e)){
+                    toast({
+                        description: e.response?.data.message ?? "Kesalahan internal server",
+                        position: "top-right",
+                        isClosable: true,
+                        duration: 3000,
+                        status: "error",
+                        title: "Error from server"
+                    });
+                }
+            } finally{
+                setLoad(false);
+            }
+        };
 
+        fetchData();
+    }, []);
+    if(load){
+        return(
+            <Box
+                width={{
+                    "lg" : "100%"
+                }}>
+                <Box 
+                padding='6' 
+                boxShadow='lg'>
+                    <SkeletonCircle size='10' />
+                    <SkeletonText mt='4' noOfLines={23} spacing='4' skeletonHeight='2' />
+                </Box>
+            </Box>
+        );
+    }
     switch(type){
         case "deskripsi":
-            showedElement = <DeskripsiPaketWisata/>
+            showedElement = <DeskripsiPaketWisata paketWisata={paketWisata as PaketWisatas}/>
             nonUnionType = "deskripsi";
             break;
         case "infopenting":
-            showedElement = <PaketWisataInfoPenting/>
+            showedElement = <PaketWisataInfoPenting paketWisata={paketWisata as PaketWisatas}/>
             nonUnionType ="infopenting"
             break;
         case "fasilitas":
             showedElement = <PaketWisataFasilitas 
-            fasilitasTermasuk={fasilitasTermasukTempData} 
-            fasilitasTidakTermasuk={fasilitasTidakTermasukTempData}/>
+            paketWisata={paketWisata as PaketWisatas}/>
             nonUnionType = "fasilitas";
             break;
         default:
-            showedElement = <DeskripsiPaketWisata/>
+            showedElement = <Rundown paketWisata={paketWisata as PaketWisatas}/>
     }
     return(
         <Box>
             <Navbar isAuthenticated={false} type="other" typeUser="user"/>
             {loadComplete ? 
-                <Box>
-                    <Image 
-                    src={image}
-                    width={{
-                        "lg" : "100%"
-                    }}/>
+                <Box width={{"lg" : "100%"}}>
+                    <Box width={{"lg" : "100%"}}>
+                        <Image 
+                        src={paketWisata?.gambarCover ?? image}
+                        width={{"lg" : "100%"}}
+                        height={{"lg" : "50vh"}}
+                        backgroundSize="cover"/>
+                    </Box>
                     <PaketWisataTitle 
-                    title="Paket Wisata Pantai Malang Selatan Full Trip"
-                    namaAgen=" Rahman Travel"
-                    kotaPenjemputan="Malang"
-                    provinsiPenjemputan="Jawa Timur"
-                    durasiPaketWisata={1}
-                    tipePaketWisata="Open"/>
+                    title={paketWisata?.nama ?? "-"}
+                    namaAgen={paketWisata?.agenTravel.nama ?? "Anonim"}
+                    kotaPenjemputan=""
+                    provinsiPenjemputan={paketWisata?.lokasiPenjemputan ?? ""}
+                    durasiPaketWisata={paketWisata?.durasiPaketWisataHari ?? 0}
+                    tipePaketWisata={paketWisata?.tipePaketWisata as "Open" | "Private" ?? "Open"}/>
                     <BreadCrumb type={type}/>
                     {showedElement}
                 </Box> : 

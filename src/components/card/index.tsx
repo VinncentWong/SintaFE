@@ -1,5 +1,6 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { fontFamily } from "../../style/font";
+import { useNavigate } from "react-router-dom";
 
 export interface DestinationCardProps{
     imageLink: any,
@@ -10,11 +11,16 @@ export interface DestinationCardProps{
     destinationPrice: number,
     width: string,
     height: string,
+    id?: number,
 }
 
 const DestinationCard = ({
-    imageLink, typeDestination, destinationName, destinationCity, destinationProvince, destinationPrice, width, height
+    imageLink, typeDestination, destinationName, destinationCity, destinationProvince, destinationPrice, width, height, id
 }: DestinationCardProps) => {
+    const navigate = useNavigate();
+    if(!id){
+        id = 1;
+    }
     return(
         <Flex
         boxShadow="0px 2px 4px rgba(171, 190, 209, 0.6)"
@@ -25,12 +31,13 @@ const DestinationCard = ({
         height={{
             "lg" : height
         }}
-        flexDir="column">
+        flexDir="column"
+        onClick={() => {navigate(`/paketwisata/deskripsi/${id}`)}}>
             <Box
             backgroundImage={imageLink}
             backgroundSize="cover"
             width={{
-                "lg" : "20vw" 
+                "lg" : "55vh" 
             }}
             height={{
                 "lg" : "25vh"
@@ -42,7 +49,7 @@ const DestinationCard = ({
                 "lg" : "1rem" 
             }}
             marginTop={{
-                "lg" : "1rem" 
+                "lg" : "1.5rem" 
             }}>
                 <Box
                 width={{
@@ -102,7 +109,7 @@ const DestinationCard = ({
                     paddingLeft={{
                         "lg" : "0.5rem"
                     }}
-                    fontWeight="400">{destinationCity}, {destinationProvince}</Text>
+                    fontWeight="400">{destinationCity}{destinationProvince}</Text>
             </Box>
             <Box
             marginTop={{

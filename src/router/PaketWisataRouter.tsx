@@ -9,6 +9,7 @@ export const PaketWisataRouter = () => {
     const [loadComplete, setloadComplete] = useState<boolean>(true);
     const url = useLocation();
     const {userId} = useParams();
+    console.log(`userId = ${userId}`);
     let type: PaketWisataType;
     const pathName = url.pathname;
     if(pathName.includes("deskripsi")){

@@ -13,7 +13,15 @@ export interface PaketWisata{
 export interface PaketWisataResponse{
     message: string,
     success: boolean,
-    data: PaketWisataObj
+    data?: PaketWisataObj
+}
+
+export interface SinglePaketWisataResponse{
+    message: string,
+    success: boolean,
+    data?: {
+        paket_wisata: PaketWisatas
+    }
 }
 
 export interface PaketWisataObj{
@@ -40,7 +48,8 @@ export interface PaketWisatas{
     domain: string,
     detailTanggal: DetailTanggal[],
     hargaPaketWisata: HargaPaketWisata[],
-    agenTravel: AgenTravel
+    agenTravel: AgenTravel,
+    gambarCover: string
 }
 
 export interface DetailTanggal{

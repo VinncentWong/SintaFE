@@ -528,7 +528,9 @@ const AgenTravelAuthenticationPage = ({type}: AuthenticationProps) => {
             </Box>;
     } else {
         showedElement = 
-        <Box>
+        <Box
+        position="relative"
+        left={{"lg" : "2rem"}}>
             <Box>
                 <Text
                 fontFamily={fontFamily}
@@ -546,9 +548,7 @@ const AgenTravelAuthenticationPage = ({type}: AuthenticationProps) => {
                 </Text>
             </Box>
             <Box
-             marginLeft={{
-                "lg" : "3.5rem"
-            }}
+            marginRight={{"lg" : "1.5rem"}}
             position="relative">
                 <InputSinta 
                 description="Email"
@@ -578,8 +578,9 @@ const AgenTravelAuthenticationPage = ({type}: AuthenticationProps) => {
                     "lg" : "14rem"
                 }}
                 left={{
-                    "lg" : "29.5rem"
-                }}>
+                    "lg" : "25.5rem"
+                }}
+                width={{"lg" : "100%"}}>
                     <Text
                     fontFamily={fontFamily}
                     color="#0053AD"
@@ -621,7 +622,7 @@ const AgenTravelAuthenticationPage = ({type}: AuthenticationProps) => {
             </Box>
             <Flex
             marginLeft={{
-                "lg" : "13rem"
+                "lg" : "9rem"
             }}
             marginBottom={{
                 "lg" : "5rem"

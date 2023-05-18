@@ -38,7 +38,7 @@ const PaketWisataTitle = (
             valueColor="#0053AD"/>
             <PaketWisataTitleSubtext
             keys="Lokasi Penjemputan: "
-            value={`${kotaPenjemputan}, ${provinsiPenjemputan}`}/>
+            value={`${kotaPenjemputan}${provinsiPenjemputan}`}/>
             <PaketWisataTitleSubtext
             keys="Durasi Paket Wisata: "
             value={`${durasiPaketWisata} hari`}/>

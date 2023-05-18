@@ -529,7 +529,10 @@ const AuthenticationPage = ({type}: AuthenticationProps) => {
             </Box>;
     } else {
         showedElement = 
-        <Box>
+        <Box
+        position="relative"
+        right="4rem"
+        bottom="3rem">
             <Box>
                 <Text
                 fontFamily={fontFamily}
@@ -579,9 +582,10 @@ const AuthenticationPage = ({type}: AuthenticationProps) => {
                     "lg" : "14rem"
                 }}
                 left={{
-                    "lg" : "29.5rem"
+                    "lg" : "25.5rem"
                 }}
-                href="/reset">
+                href="/reset"
+                width={{"lg" : "100%"}}>
                     <Text
                     fontFamily={fontFamily}
                     color="#0053AD"

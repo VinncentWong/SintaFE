@@ -30,7 +30,7 @@ import { useNavigate } from "react-router-dom";
 const StatusMessage = ({image, additionalProps, text}: {image: string, additionalProps: FlexProps, text: string}) => {
     return(
         <Flex {...additionalProps}>
-            <Image src={image} maxWidth="100%"/>
+            <Image src={image} width={{"lg" : "10%"}} maxWidth="100%"/>
             <Text fontFamily={fontFamily} fontSize={{"lg" : "1.25rem"}} fontWeight={600}>
                 {text}
             </Text>
@@ -42,20 +42,20 @@ const DropDown = ({type}: {type: TipeAgenTravelPage}) => {
     const agenTravel = getAgenTravel();
     let showedStatus: JSX.Element[] = [];
     if(!agenTravel.sudahLengkapiProfil){
-        showedStatus.push(<StatusMessage image={warning} text="Lengkapi Profil Anda" additionalProps={{color: "#EF473A", gap: "0.5rem"}}/>);
+        showedStatus.push(<StatusMessage image={warning} text="Lengkapi Profil Anda" additionalProps={{color: "#EF473A", gap: "0.5rem", width: {"lg" : "100%"}}}/>);
     } else {
         if(agenTravel.isVerified){
-            showedStatus.push(<StatusMessage image={terverifikasi} text="Terverifikasi" additionalProps={{color: "#0053AD", gap: "0.5rem"}}/>);
+            showedStatus.push(<StatusMessage image={terverifikasi} text="Terverifikasi" additionalProps={{color: "#0053AD", gap: "0.5rem", width: {"lg" : "100%"}}}/>);
         } else {
-            showedStatus.push(<StatusMessage image={menungguVerifikasi} text="Menunggu Verifikasi" additionalProps={{color: "#FFA826", gap: "0.5rem"}}/>);
+            showedStatus.push(<StatusMessage image={menungguVerifikasi} text="Menunggu Verifikasi" additionalProps={{color: "#FFA826", gap: "0.5rem", width: {"lg" : "100%"}}}/>);
         }
         if(!agenTravel.sudahIsiDetailBank){
-            showedStatus.push(<StatusMessage image={warning} text="Lengkapi Bank/E-Wallet Anda" additionalProps={{color: "#EF473A", gap: "0.5rem"}}/>);
+            showedStatus.push(<StatusMessage image={warning} text="Lengkapi Bank/E-Walletmu" additionalProps={{color: "#EF473A", gap: "0.5rem", width: {"lg" : "100%"}}}/>);
         }
         if(agenTravel.isPremium){
-            showedStatus.push(<StatusMessage image={premium} text="Akun Premium" additionalProps={{color: "#00B87B", gap: "0.5rem"}}/>);
+            showedStatus.push(<StatusMessage image={premium} text="Akun Premium" additionalProps={{color: "#00B87B", gap: "0.5rem", width: {"lg" : "100%"}}}/>);
         } else {
-            showedStatus.push(<StatusMessage image={nonpremium} text="Akun Non-Premium" additionalProps={{color: "#ABBED1", gap: "0.5rem"}}/>);
+            showedStatus.push(<StatusMessage image={nonpremium} text="Akun Non-Premium" additionalProps={{color: "#ABBED1", gap: "0.5rem", width: {"lg" : "100%"}}}/>);
         }
     }
     const buttonProps: ButtonProps = {

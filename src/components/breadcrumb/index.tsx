@@ -79,7 +79,8 @@ const BreadCrumb = ({type}: BreadCrumbProps) => {
             }}
             paddingBottom={{
                 "lg" : "3rem"
-            }}>
+            }}
+            onClick={() => {navigate(`/paketwisata/rundown/${id.id}`)}}>
                 <Text
                 fontFamily={fontFamily}
                 color={type == "rundown"? "white": "#212121"}>Rundown</Text>

@@ -31,6 +31,7 @@ function App() {
           <Route path="/paketwisata/deskripsi/:userId" element={<PaketWisataRouter/>}/>
           <Route path="/paketwisata/infopenting/:userId" element={<PaketWisataRouter/>}/>
           <Route path="/paketwisata/fasilitas/:userId" element={<PaketWisataRouter/>}/>
+          <Route path="/paketwisata/rundown/:userId" element={<PaketWisataRouter/>}/>
           <Route path="/register" element={<AuthenticationPage type="register"/>}/>
           <Route path="/login" element={<AuthenticationPage type="login"/>}/>
           <Route path="/reset" element={<AuthenticationPage type="reset"/>}/>

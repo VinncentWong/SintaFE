@@ -54,7 +54,9 @@ const DestinationGroup = ({title, subtitle, data}: DestinationGroupProps) => {
                     }}>{subtitle}</Text>
             </Box>
             <Flex
-            gap={"1.5rem"}>
+            gap={"1.5rem"}
+            flexWrap="nowrap"
+            width={{"lg" : "100%"}}>
                 {data}
             </Flex>
             <Flex

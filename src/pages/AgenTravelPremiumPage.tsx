@@ -41,7 +41,7 @@ const AgenTravelPremiumPage = ({type}: {type: TipeAgenTravelPage}) => {
         </Box>;
     } else {
         showedElement = 
-        <Flex flexDir="column" position="relative" left="31rem" bottom="31rem" gap={{"lg" : "1rem"}}>
+        <Flex flexDir="column" position="relative" left="28rem" bottom="31rem" gap={{"lg" : "1rem"}}>
             <Text
             fontFamily={fontFamily}
             fontSize={{"lg" : "1.75rem"}}
@@ -52,10 +52,11 @@ const AgenTravelPremiumPage = ({type}: {type: TipeAgenTravelPage}) => {
             fontFamily={fontFamily}
             fontSize={{"lg" : "1.125rem"}}
             fontWeight={400}
-            color="#717171">
+            color="#717171"
+            width={{"lg" : "50%"}}>
                 Agar kamu dapat posting paket wisata dan portofolio sebebasnya, mari berlangganan layanan premium kami
             </Text>
-            <Flex marginTop={{"lg" : "2rem"}}>
+            <Flex marginTop={{"lg" : "2rem"}} flexWrap="wrap" width={{"lg" : "70%"}}>
                 <PremiumCard bulan="1" harga="80000" jenisPaket="Pemula"/>
                 <PremiumCard bulan="3" harga="230000" jenisPaket="Menengah"/>
                 <PremiumCard bulan="6" harga="400000" jenisPaket="Jagoan"/>

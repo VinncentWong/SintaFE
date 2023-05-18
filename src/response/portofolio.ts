@@ -3,7 +3,7 @@ import { AgenTravel } from "./agen_travel"
 export interface PortofolioResponse{
     message: string,
     success: boolean,
-    data: PortofolioArray
+    data?: PortofolioArray
 }
 
 export interface PortofolioArray{
@@ -13,5 +13,7 @@ export interface PortofolioArray{
 export interface Portofolio{
     id: number,
     text: string,
-    agenTravel: AgenTravel
+    agenTravel: AgenTravel,
+    createdAt: string,
+    updatedAt: string
 }
