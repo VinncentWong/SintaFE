@@ -280,7 +280,7 @@ const DetailTamuInput = ({index, tipe}: DetailTamuInputProps) => {
                     value={tipe == "anak"? namaAnakValue : tipe == "bayi"? namaBayiValue : namaDewasaValue}
                     placeholder="Masukkan nama lengkap Anda"
                     type="text"
-                    width="97%"
+                    width="90%"
                     additionalProps={{marginBottom: {"lg" : undefined}}}/>
                 </Flex>
                 <Flex marginX={{"lg" : "3rem"}}>
