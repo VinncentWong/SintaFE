@@ -197,6 +197,10 @@ const PemesananPaketWisataRouter = () => {
                 titelDewasas: titelDewasas,
                 tipePaketWisata: tipePaketWisata,
                 tipePembayaran: tipePembayaran,
+                titel: titel,
+                nama: nama,
+                nomorKtp: nomorKtp,
+                noTelepon: nomorTelepon
             }
         }>
             <Navbar isAuthenticated type="pesanpaketwisata" typeUser="user"/>

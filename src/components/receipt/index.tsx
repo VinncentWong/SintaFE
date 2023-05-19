@@ -9,8 +9,9 @@ import duit from "../../images/pemesanan/duit.png";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import silang from "../../images/pemesanan/silang.png";
 import jam from "../../images/pemesanan/jam.png";
+import { PaketWisatas } from "../../response/paket_wisata";
 
-const Receipt = ({nDewasa, nAnak, nBayi, harga, bulan}: {nDewasa?: number, nAnak?: number, nBayi?: number, harga?: string, bulan?: string}) => {
+const Receipt = ({nDewasa, nAnak, nBayi, harga, bulan, paketWisata}: {nDewasa?: number, nAnak?: number, nBayi?: number, harga?: string, bulan?: string, paketWisata?: PaketWisatas}) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     return(
         <Box
@@ -29,7 +30,7 @@ const Receipt = ({nDewasa, nAnak, nBayi, harga, bulan}: {nDewasa?: number, nAnak
             </Flex>
             <Flex flexDir="column" marginTop={{"lg" : "2rem"}} marginX={{"lg" : "2rem"}}>
                 {
-                    nAnak && nDewasa && nBayi &&
+                    (nAnak || nBayi || nDewasa ) &&
                     <Text
                     fontFamily={fontFamily}
                     fontSize={{"lg" : "1.25rem"}}
@@ -72,7 +73,7 @@ const Receipt = ({nDewasa, nAnak, nBayi, harga, bulan}: {nDewasa?: number, nAnak
                         </Flex>
                     }
                     {
-                        nAnak && nBayi && nDewasa &&
+                        (nAnak || nBayi || nDewasa ) &&
                         <Flex marginY={{"lg" : "0.5rem"}} gap={"0.5rem"}>
                             <Image src={users} maxWidth={"100%"}/>
                             <Text
@@ -84,7 +85,7 @@ const Receipt = ({nDewasa, nAnak, nBayi, harga, bulan}: {nDewasa?: number, nAnak
                             </Text>
                         </Flex>
                     }
-                    {
+                    {/* {
                         nAnak && nBayi && nDewasa &&
                         <Flex marginY={{"lg" : "0.5rem"}} gap={"0.5rem"}> 
                             <Image src={handsCoin} maxWidth={"100%"}/>
@@ -96,9 +97,9 @@ const Receipt = ({nDewasa, nAnak, nBayi, harga, bulan}: {nDewasa?: number, nAnak
                                 Bisa Refund
                             </Text>
                         </Flex>
-                    }
+                    } */}
                     {
-                        nAnak && nBayi && nDewasa &&
+                        (nAnak || nBayi || nDewasa ) &&
                         <Flex marginY={{"lg" : "0.5rem"}} gap={"0.5rem"}>
                             <Image src={calenderPlus} maxWidth={"100%"}/>
                             <Text
@@ -139,7 +140,7 @@ const Receipt = ({nDewasa, nAnak, nBayi, harga, bulan}: {nDewasa?: number, nAnak
                 </Flex>
             </Flex>
             {
-                nAnak && nDewasa && nBayi && 
+                (nAnak || nBayi || nDewasa ) && 
                 <Box height={{"lg" : "0.5rem"}} width={{"lg" : "90%"}} borderTop="1px dashed #ABBED1" marginX={{"lg" : "2rem"}} marginY={{"lg" : "1rem"}}></Box>
             }
             {
@@ -158,13 +159,13 @@ const Receipt = ({nDewasa, nAnak, nBayi, harga, bulan}: {nDewasa?: number, nAnak
                 <Button _hover={{backgroundColor : undefined}} backgroundColor="transparent" colorScheme={undefined} width={{"lg" : "45%"}} onClick={() => {onOpen()}}>
                     <Flex alignItems="center">
                         {
-                            nAnak && nBayi && nDewasa && 
+                            (nAnak || nBayi || nDewasa ) && 
                             <Text
                                 fontFamily={fontFamily}
                                 fontSize={{"lg" : "1.25rem"}}
                                 fontWeight={600}
                                 color="#0053AD">
-                                Rp{(nDewasa ?? 0 * 100000) + (nAnak ?? 0* 75000) + (nBayi ?? 0 * 50000) + 5000}
+                                Rp{(((nDewasa ?? 0) * (paketWisata?.hargaPaketWisata[0].harga ?? 0)) ?? 0 * 100000) + ((nAnak ?? 0) * (paketWisata?.hargaPaketWisata[1].harga ?? 0)) + ((nBayi ?? 0) * (paketWisata?.hargaPaketWisata[2].harga ?? 0)) + 5000}
                             </Text>
                         }
                         {
@@ -203,7 +204,7 @@ const Receipt = ({nDewasa, nAnak, nBayi, harga, bulan}: {nDewasa?: number, nAnak
                             color="#717171"
                             fontSize={{"lg" : "1.125rem"}}>Tarif</Text>
                             {
-                                nAnak && nBayi && nDewasa && 
+                                (nAnak || nBayi || nDewasa ) && 
                                 <ul style={{"color" : "#89939E"}}>
                                     <li style={{"marginTop" : "0.5rem", "marginBottom": "0.5rem"}}>
                                         <Flex gap={{"lg" : "20rem"}}>
@@ -217,7 +218,7 @@ const Receipt = ({nDewasa, nAnak, nBayi, harga, bulan}: {nDewasa?: number, nAnak
                                             fontFamily={fontFamily}
                                             color="#89939E"
                                             fontSize={{"lg" : "0.875rem"}}>
-                                                Rp.{nDewasa ?? 0 * 100000}
+                                                Rp.{(((nDewasa ?? 0) * (paketWisata?.hargaPaketWisata[0].harga ?? 0)))}
                                             </Text>
                                         </Flex>
                                     </li>
@@ -234,7 +235,7 @@ const Receipt = ({nDewasa, nAnak, nBayi, harga, bulan}: {nDewasa?: number, nAnak
                                             color="#89939E"
                                             fontSize={{"lg" : "0.875rem"}}
                                             justifySelf="flex-end">
-                                                Rp.{nAnak ?? 0 * 75000}
+                                                Rp.{(nAnak ?? 0) * (paketWisata?.hargaPaketWisata[1].harga ?? 0)}
                                             </Text>
                                         </Flex>
                                     </li>
@@ -250,7 +251,7 @@ const Receipt = ({nDewasa, nAnak, nBayi, harga, bulan}: {nDewasa?: number, nAnak
                                             fontFamily={fontFamily}
                                             color="#89939E"
                                             fontSize={{"lg" : "0.875rem"}}>
-                                                Rp.{nBayi ?? 0 * 50000}
+                                                Rp.{((nBayi ?? 0) * (paketWisata?.hargaPaketWisata[2].harga ?? 0))}
                                             </Text>
                                         </Flex>
                                     </li>
@@ -283,6 +284,7 @@ const Receipt = ({nDewasa, nAnak, nBayi, harga, bulan}: {nDewasa?: number, nAnak
                             fontFamily={fontFamily}
                             color="#717171"
                             fontSize={{"lg" : "1.125rem"}}>Biaya Lainnya</Text>
+                            {harga && bulan && 
                             <ul style={{"color" : "#89939E"}}>
                                 <li style={{"marginTop" : "0.5rem", "marginBottom": "0.5rem"}}>
                                     <Flex gap={{"lg" : "19.8rem"}}>
@@ -301,6 +303,28 @@ const Receipt = ({nDewasa, nAnak, nBayi, harga, bulan}: {nDewasa?: number, nAnak
                                     </Flex>
                                 </li>
                             </ul>
+                            }
+                            {
+                                (nAnak || nBayi || nDewasa) && 
+                                <ul style={{"color" : "#89939E"}}>
+                                    <li style={{"marginTop" : "0.5rem", "marginBottom": "0.5rem"}}>
+                                        <Flex gap={{"lg" : "19.8rem"}}>
+                                            <Text
+                                            fontFamily={fontFamily}
+                                            color="#89939E"
+                                            fontSize={{"lg" : "0.875rem"}}>
+                                                Administrasi
+                                            </Text>
+                                            <Text
+                                            fontFamily={fontFamily}
+                                            color="#89939E"
+                                            fontSize={{"lg" : "0.875rem"}}>
+                                                Rp5000
+                                            </Text>
+                                        </Flex>
+                                    </li>
+                                </ul>
+                            }
                         </Flex>
                         <Box height={{"lg" : "0.5rem"}} width={{"lg" : "90%"}} borderTop="1px dashed #ABBED1" marginX={{"lg" : "2rem"}} marginY={{"lg" : "1rem"}}></Box>
                         <Flex marginX={{"lg" : "2rem"}} marginY={{"lg" : "2rem"}} alignItems="center" gap={{"lg" : "9rem"}}>
@@ -313,13 +337,13 @@ const Receipt = ({nDewasa, nAnak, nBayi, harga, bulan}: {nDewasa?: number, nAnak
                                     Total Pembayaran
                             </Text>
                             {
-                                nAnak && nBayi && nDewasa &&
+                                (nAnak || nBayi || nDewasa ) &&
                                 <Text
                                 fontFamily={fontFamily}
                                 fontSize={{"lg" : "1.25rem"}}
                                 fontWeight={600}
                                 color="#0053AD">
-                                    Rp{(nDewasa ?? 0 * 100000) + (nAnak ?? 0 * 75000) + (nBayi ?? 0 * 50000) + 5000}
+                                    Rp{(((nDewasa ?? 0) * (paketWisata?.hargaPaketWisata[0].harga ?? 0)) ?? 0 * 100000) + ((nAnak ?? 0) * (paketWisata?.hargaPaketWisata[1].harga ?? 0)) + ((nBayi ?? 0) * (paketWisata?.hargaPaketWisata[2].harga ?? 0)) + 5000}
                                 </Text>
                             }
                             {

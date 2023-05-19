@@ -15,6 +15,8 @@ import api from "../api/api";
 import axios from "axios";
 import { Box, SkeletonCircle, SkeletonText, useToast } from "@chakra-ui/react";
 
+console.log(`base url = ${process.env.REACT_APP_API_URL}`);
+
 const LandingPage = () => {
 
     const [load, setLoad] = useState<boolean>(false);
@@ -174,7 +176,7 @@ const LandingPage = () => {
             <DestinationGroup 
             title="Pilihan destinasi menarik under 500k 😱"
             subtitle="Cocok buat kamu yang punya budget terbatas, tapi mau liburan yang seru!"
-            data={arrDestinationCard.slice(0,4)}/>
+            data={arrDestinationCard.slice(0,3)}/>
             <DestinationGroup 
             title="Include semuanya tinggal bawa badan"
             subtitle="Gaperlu repot mikirin biaya lainnya, cukup bawa badan and enjoy ur holiday 🤩"

@@ -3,7 +3,7 @@ import DetailPaketWisata from "../pages/DetailPaketWisata";
 import WisataIdContext from "../context/WisataIdContext";
 import { useState } from "react";
 
-export type PaketWisataType = "deskripsi" | "infopenting" | "rundown" | "fasilitas" | "pesanpaketwisata" | undefined;
+export type PaketWisataType = "deskripsi" | "infopenting" | "rundown" | "fasilitas" | "pesanpaketwisata" | "pesan" | undefined;
 
 export const PaketWisataRouter = () => {
     const [loadComplete, setloadComplete] = useState<boolean>(true);
@@ -20,7 +20,9 @@ export const PaketWisataRouter = () => {
         type = "rundown";
     } else if(pathName.includes("fasilitas")){
         type = "fasilitas";
-    } else{
+    } else if(pathName.includes("pesanpaketwisata")){
+        type = "pesanpaketwisata";
+    } else {
         type = undefined;
     }
     if(!type || !userId){

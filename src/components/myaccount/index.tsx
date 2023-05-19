@@ -32,8 +32,9 @@ const MyAccount = ({additionalChange}: {additionalChange?: FlexProps}) => {
                     Detail Pemesanan
                 </Text>
             </Flex>
-            <Flex marginX={{"lg" : "2rem"}} marginTop={{"lg" : "1rem"}}>
+            <Flex width={{"lg" : "100%"}} marginX={{"lg" : "2rem"}} marginTop={{"lg" : "1rem"}}>
                 <Flex
+                width={{"lg" : "20%"}}
                 flexDir="column"
                 gap={{"lg" : "0.5rem"}}
                 justifyContent={{"lg" : "center"}}
@@ -42,7 +43,7 @@ const MyAccount = ({additionalChange}: {additionalChange?: FlexProps}) => {
                     fontFamily={fontFamily}
                     fontWeight={500}
                     fontSize={{"lg" : "1rem"}}>Titel<span style={{color: "#E12C1F"}}>*</span></Text>
-                    <Select placeholder="Titel" value={selectedOption} onChange={(e: ChangeEvent<HTMLSelectElement>) => {
+                    <Select width={{"lg" : "100%"}} placeholder="Titel" value={selectedOption} onChange={(e: ChangeEvent<HTMLSelectElement>) => {
                         context.onTitelChange(e);
                         setSelectedOption(e.currentTarget.value);
                     }}>
@@ -61,7 +62,7 @@ const MyAccount = ({additionalChange}: {additionalChange?: FlexProps}) => {
                 value={nama}
                 placeholder=""
                 type="text"
-                width="97%"
+                width="90%"
                 additionalProps={{marginBottom: {"lg" : undefined}}}/>
             </Flex>
             <Flex marginLeft={{"lg" : "3rem"}} marginBottom={{"lg" : "1rem"}}>

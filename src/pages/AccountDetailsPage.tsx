@@ -1,4 +1,4 @@
-import { Box, Button, ButtonProps, Flex, Image, SkeletonCircle, SkeletonText, Text, TextProps, useToast } from "@chakra-ui/react";
+import { Box, Button, ButtonProps, Flex, Image, Link, SkeletonCircle, SkeletonText, Text, TextProps, useToast } from "@chakra-ui/react";
 import Navbar from "../components/navbar";
 import ButtonWithImage from "../components/button";
 import { fontFamily } from "../style/font";
@@ -18,6 +18,9 @@ import { getJwtToken } from "../util/auth_util";
 import axios from "axios";
 import UserResponse from "../response/response";
 import { useMemo, useState } from "react";
+import booking from "../images/myaccount/booking.png";
+import persons from "../images/myaccount/persons.png";
+import date from "../images/myaccount/date.png";
 
 type AccountDetailsType = "booking" | "refund" | "history" | "myaccount";
 
@@ -121,7 +124,111 @@ const AccountDetailsPage = ({type}: {type: AccountDetailsType}) => {
     let showedElement: JSX.Element;
     switch(type){
         case "booking":
-            showedElement = <Box></Box>;
+            showedElement = 
+            <Box
+            position="relative"
+            top={{"lg" : "1rem"}}
+            width={{"lg" : "100%"}}>
+                <Flex
+                flexDir="column"
+                width={{"lg" : "100%"}}
+                gap={{"lg" : "1rem"}}>
+                    <Flex>
+                        <Text
+                        fontFamily={fontFamily}
+                        fontWeight={600}
+                        fontSize={{"lg" : "1.75rem"}}>
+                            Cek Booking
+                        </Text>
+                    </Flex>
+                    <Flex
+                    border="1px solid #E0E6ED"
+                    borderRadius="8px"
+                    paddingY={{"lg" : "1rem"}}
+                    paddingX={{"lg" : "1rem"}}
+                    flexDir="column"
+                    width={{"lg" : "80%"}}
+                    gap={{"lg" : "1rem"}}>
+                        <Flex gap={{"lg" : "1rem"}}>
+                            <Image maxW="100%" src={booking}/>
+                            <Text
+                            fontFamily={fontFamily}
+                            fontSize={{"lg" : "1.25rem"}}
+                            color="#717171">
+                                Paket Wisata
+                            </Text>
+                        </Flex>
+                        <Flex
+                        flexDir="column"
+                        gap={{"lg" : "1rem"}}>
+                            <Text
+                            fontFamily={fontFamily}
+                            fontSize={{"lg" : "1.25rem"}}
+                            color="#717171">
+                                Order ID : 1192-AVXX-190221$
+                            </Text>
+                            <Text
+                            fontFamily={fontFamily}
+                            fontSize={{"lg" : "1.25rem"}}
+                            color="#717171">
+                                Tanggal Pemesanan: 2023-05-09
+                            </Text>
+                            <Text
+                            fontFamily={fontFamily}
+                            fontSize={{"lg" : "1.25rem"}}
+                            fontWeight={600}>
+                                Paket Wisata Malang
+                            </Text>
+                            <Flex width={{"lg" : "100%"}}>
+                                <Flex width={{"lg" : "40%"}} gap={{"lg" : "1rem"}}>
+                                    <Image src={persons} maxWidth="100%"/>
+                                    <Text
+                                    fontFamily={fontFamily}
+                                    fontSize={{"lg" : "0.875rem"}}
+                                    color="#717171">
+                                        1 Dewasa, 1 Anak, dan 1 Bayi
+                                    </Text>
+                                </Flex>
+                                <Flex width={{"lg" : "40%"}} gap={{"lg" : "1rem"}}>
+                                    <Image src={date} maxWidth="100%"/>
+                                    <Text
+                                    fontFamily={fontFamily}
+                                    fontSize={{"lg" : "0.875rem"}}
+                                    color="#717171">
+                                        2023-05-20 &nbsp; - &nbsp; 2023-05-21
+                                    </Text>
+                                </Flex>
+                            </Flex>
+                            <Flex
+                            gap={{"lg" : "30rem"}}>
+                                <Box
+                                backgroundColor="#E2F8F0"
+                                borderRadius="8px"
+                                paddingX={{"lg" : "1rem"}}
+                                paddingY={{"lg" : "1rem"}}>
+                                    <Text
+                                    fontFamily={fontFamily}
+                                    fontSize={{"lg" : "0.875rem"}}
+                                    color="#0B9568"
+                                    fontWeight={600}>
+                                        Pembayaran Berhasil
+                                    </Text>
+                                </Box>
+                                <Box
+                                paddingY={{"lg" : "1rem"}}>
+                                    <Link
+                                    fontFamily={fontFamily}
+                                    fontSize={{"lg" : "0.875rem"}}
+                                    color="#0053AD"
+                                    fontWeight={600}>
+                                        Lihat Detail
+                                    </Link>
+                                </Box>
+                            </Flex>
+                        </Flex>
+                    </Flex>
+                </Flex>
+            </Box>;
             break;
         case "history":
             showedElement = <Box></Box>;
@@ -240,7 +347,7 @@ const AccountDetailsPage = ({type}: {type: AccountDetailsType}) => {
                             image={boking} 
                             textContent="Cek Booking" 
                             textProps={textProps}
-                            buttonProps={{...buttonProps, paddingLeft: {"lg" : "1.5rem"}, backgroundColor: type === "booking"? "#DBEDFF" : "#FCFCFC"}}/>
+                            buttonProps={{...buttonProps, paddingLeft: {"lg" : "1.5rem"}, backgroundColor: type === "booking"? "#DBEDFF" : "#FCFCFC", onClick: () => {navigate(`/myaccount/booking/${userId}`)}}}/>
                             <ButtonWithImage
                             image={refund}
                             textContent="Cek Refund"
@@ -250,13 +357,13 @@ const AccountDetailsPage = ({type}: {type: AccountDetailsType}) => {
                             <ButtonWithImage
                             image={riwayat}
                             textContent="Riwayat Pesanan"
-                            buttonProps={{...buttonProps, paddingLeft: {"lg" : "3.5rem"}, backgroundColor: type === "history"? "#DBEDFF" : "#FCFCFC"}}
+                            buttonProps={{...buttonProps, paddingLeft: {"lg" : "1.5rem"}, backgroundColor: type === "history"? "#DBEDFF" : "#FCFCFC"}}
                             textProps={textProps}
                             />
                             <ButtonWithImage
                             image={myaccount}
                             textContent="Akun Saya"
-                            buttonProps={{...buttonProps, paddingRight: {"lg" : "1.5rem"}, backgroundColor: type === "myaccount" ? "#DBEDFF" : "#FCFCFC"}}
+                            buttonProps={{...buttonProps, paddingRight: {"lg" : "1.5rem"}, backgroundColor: type === "myaccount" ? "#DBEDFF" : "#FCFCFC", onClick: () => {navigate(`/myaccount/detail/${userId}`)}}}
                             textProps={textProps}
                             />
                             <ButtonWithImage

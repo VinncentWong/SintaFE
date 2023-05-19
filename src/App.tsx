@@ -32,11 +32,13 @@ function App() {
           <Route path="/paketwisata/infopenting/:userId" element={<PaketWisataRouter/>}/>
           <Route path="/paketwisata/fasilitas/:userId" element={<PaketWisataRouter/>}/>
           <Route path="/paketwisata/rundown/:userId" element={<PaketWisataRouter/>}/>
+          <Route path="/paketwisata/pesanpaketwisata/:userId" element={<PaketWisataRouter/>}/>
           <Route path="/register" element={<AuthenticationPage type="register"/>}/>
           <Route path="/login" element={<AuthenticationPage type="login"/>}/>
           <Route path="/reset" element={<AuthenticationPage type="reset"/>}/>
           <Route element={<PrivateRouter/>}>
             <Route path="/myaccount/detail/:userId" element={<AccountDetailsPage type="myaccount"/>}/>
+            <Route path="/myaccount/booking/:userId" element={<AccountDetailsPage type="booking"/>}/>
             <Route path="/paketwisata/pesan/:paketWisataId" element={<PemesananPaketWisataRouter/>}/>
           </Route>
           <Route path="/agentravel/register" element={<AgenTravelAuthenticationPage type="register"/>}/>

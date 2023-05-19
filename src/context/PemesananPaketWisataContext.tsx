@@ -52,6 +52,10 @@ const PemesananPaketWisataContext = createContext({
     tanggalHabisBerlakuDewasas: [""],
     tanggalHabisBerlakuAnaks: [""],
     tanggalHabisBerlakuBayis: [""],
+    titel: "",
+    nama: "",
+    nomorKtp: "",
+    noTelepon: ""
 });
 
 export default PemesananPaketWisataContext;

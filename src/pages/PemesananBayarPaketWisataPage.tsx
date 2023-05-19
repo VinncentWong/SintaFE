@@ -1,12 +1,18 @@
-import { Box, Button, Flex, Image, Radio, RadioGroup, Stack, Text, useToast } from "@chakra-ui/react";
+import { Box, Button, Flex, Image, Radio, RadioGroup, SkeletonCircle, SkeletonText, Stack, Text, useToast } from "@chakra-ui/react";
 import { fontFamily } from "../style/font";
 import duit from "../images/pemesanan/duit.png";
 import PemesananPaketWisataContext from "../context/PemesananPaketWisataContext";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Receipt from "../components/receipt";
 import QRCode from 'qrcode.react';
 import { useParams } from "react-router-dom";
 import { User } from "../response/response";
+import { PaketWisatas, SinglePaketWisataResponse } from "../response/paket_wisata";
+import axios from "axios";
+import api from "../api/api";
+import { PemesananDalamNegeriResponse } from "../response/pemesanan_dalam_negeri";
+import { getAgenTravel } from "../util/auth_util";
+import auth_util from "../util/auth_util";
 
 const PemesananBayarPaketWisataPage = ({nDewasa, nAnak, nBayi}: {nDewasa: number, nAnak: number, nBayi: number}) => {
     const {paketWisataId} = useParams();
@@ -14,6 +20,88 @@ const PemesananBayarPaketWisataPage = ({nDewasa, nAnak, nBayi}: {nDewasa: number
     const [posisiPembayaran, setPosisiPembayaran] = useState<1|2>(1);
     const pemesananContext = useContext(PemesananPaketWisataContext);
     const [load, setLoad] = useState<boolean>(false);
+    const [paketWisata, setPaketWisata] = useState<PaketWisatas>();
+    const [loadPemesanan, setLoadPemesanan] = useState<boolean>(false);
+    const toast = useToast();
+    useEffect(() => {
+        setLoad(true);
+
+        const fetchData = async () => {
+            try{
+                const paketWisata = await api.get<SinglePaketWisataResponse>(`/paketwisata/get/paketwisata/${paketWisataId ?? 0}`);
+                const data = paketWisata.data.data;
+                if(data){
+                    if(data.paket_wisata.tipePaketWisata === "OPEN"){
+                        data.paket_wisata.tipePaketWisata = "Open";
+                    } else {
+                        data.paket_wisata.tipePaketWisata = "Private";
+                    }
+                }
+                setPaketWisata(paketWisata.data.data?.paket_wisata as PaketWisatas)
+            } catch(e){
+                if(axios.isAxiosError<SinglePaketWisataResponse>(e)){
+                    toast({
+                        description: e.response?.data.message ?? "Kesalahan internal server",
+                        position: "top-right",
+                        isClosable: true,
+                        duration: 3000,
+                        status: "error",
+                        title: "Error from server"
+                    });
+                }
+            } finally{
+                setLoad(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    const bayarHandler = async () => {
+        setLoadPemesanan(true);
+        try{
+            const result = api.post<PemesananDalamNegeriResponse>(`/pemesanan/dalamnegeri/get/by/user/`, {
+                "titel" : pemesananContext.titel,
+                "namaLengkap" : pemesananContext.nama,
+                "email" : user.email,
+                "nomorKtp" : pemesananContext.nomorKtp,
+                "nomorTelepon" : pemesananContext.noTelepon,
+                "tipePembayaran" : pemesananContext.tipePembayaran
+            });
+            setTimeout(() => {
+                localStorage.removeItem(`deadline-${user.id}${paketWisataId}`)
+                setLoadPemesanan(false);
+                pemesananContext.setCurrentPosition(3);
+            }, 2000);
+        } catch(e){
+            if(axios.isAxiosError<PemesananDalamNegeriResponse>(e)){
+                toast({
+                    isClosable: true,
+                    duration: 3000,
+                    position: "top-right",
+                    status: "error",
+                    description: e.response?.data.message ?? "Kesalahan Internal Server",
+                    title: "Error"
+                });
+            }
+        }
+    };
+
+    if(load){
+        return(
+            <Box
+                width={{
+                    "lg" : "100%"
+                }}>
+                <Box 
+                padding='6' 
+                boxShadow='lg'>
+                    <SkeletonCircle size='10' />
+                    <SkeletonText mt='4' noOfLines={23} spacing='4' skeletonHeight='2' />
+                </Box>
+            </Box>
+        );
+    }
     if(posisiPembayaran === 1){
         return(
             <Flex
@@ -104,7 +192,7 @@ const PemesananBayarPaketWisataPage = ({nDewasa, nAnak, nBayi}: {nDewasa: number
                         </Flex>
                    </Flex>
                    <Flex flexDirection="column">
-                        <Receipt nAnak={nAnak} nBayi={nBayi} nDewasa={nDewasa}/>
+                        <Receipt nAnak={nAnak} nBayi={nBayi} nDewasa={nDewasa} paketWisata={paketWisata}/>
                         <Button colorScheme="blue" backgroundColor="#0053AD" borderRadius="8px" width={{"lg" : "100%"}} marginY={{"lg" : "2rem"}} onClick={() => {setPosisiPembayaran(2)}}>
                             <Text
                             fontFamily={fontFamily}
@@ -176,16 +264,9 @@ const PemesananBayarPaketWisataPage = ({nDewasa, nAnak, nBayi}: {nDewasa: number
                             </Text>
                         </Button>
                    </Flex>
-                   <Flex flexDirection="column">
-                        <Receipt nAnak={nAnak} nBayi={nBayi} nDewasa={nDewasa}/>
-                        <Button colorScheme="blue" backgroundColor="#0053AD" borderRadius="8px" width={{"lg" : "100%"}} marginY={{"lg" : "2rem"}} isLoading={load} onClick={() => {
-                            localStorage.removeItem(`deadline-${user.id}${paketWisataId}`)
-                            setLoad(true);
-                            setTimeout(() => {
-                                setLoad(false);
-                                pemesananContext.setCurrentPosition(3);
-                            }, 3000);
-                        }}>
+                   <Flex flexDirection="column" gap={{"lg" : "2.7rem"}}>
+                        <Receipt nAnak={nAnak} nBayi={nBayi} nDewasa={nDewasa} paketWisata={paketWisata}/>
+                        <Button colorScheme="blue" backgroundColor="#0053AD" borderRadius="8px" width={{"lg" : "100%"}} marginY={{"lg" : "2rem"}} isLoading={loadPemesanan} onClick={bayarHandler}>
                             <Text
                             fontFamily={fontFamily}
                             fontSize={{"lg" : "0.875rem"}}

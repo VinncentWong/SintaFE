@@ -33,7 +33,7 @@ const PaketWisataInfoPenting = ({paketWisata}: {paketWisata: PaketWisatas}) => {
                     <SkeletonText mt='4' noOfLines={23} spacing='4' skeletonHeight='2' />
                 </Box>
             </Box>
-        )
+        );
     }
 };
 

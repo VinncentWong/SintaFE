@@ -31,6 +31,7 @@ const BreadCrumb = ({type}: BreadCrumbProps) => {
             "lg" : "2rem"
         }}>
             <Button
+            _hover={{backgroundColor: undefined}}
             backgroundColor={type == "deskripsi"? "#0053AD": "transparent"}
             borderRadius="8px"
             width={{
@@ -50,6 +51,7 @@ const BreadCrumb = ({type}: BreadCrumbProps) => {
                 color={type == "deskripsi"? "white": "#212121"}>Deskripsi</Text>
             </Button>
             <Button
+            _hover={{backgroundColor: undefined}}
             backgroundColor={type == "infopenting"? "#0053AD": "transparent"}
             borderRadius="8px"
             width={{
@@ -69,6 +71,7 @@ const BreadCrumb = ({type}: BreadCrumbProps) => {
                 color={type == "infopenting"? "white": "#212121"}>Info Penting</Text>
             </Button>
             <Button
+            _hover={{backgroundColor: undefined}}
             backgroundColor={type == "rundown"? "#0053AD": "transparent"}
             borderRadius="8px"
             width={{
@@ -86,6 +89,7 @@ const BreadCrumb = ({type}: BreadCrumbProps) => {
                 color={type == "rundown"? "white": "#212121"}>Rundown</Text>
             </Button>
             <Button
+            _hover={{backgroundColor: undefined}}
             backgroundColor={type == "fasilitas"? "#0053AD": "transparent"}
             borderRadius="8px"
             width={{
@@ -105,6 +109,7 @@ const BreadCrumb = ({type}: BreadCrumbProps) => {
                 color={type == "fasilitas"? "white": "#212121"}>Fasilitas</Text>
             </Button>
             <Button
+            _hover={{backgroundColor: undefined}}
             backgroundColor={type == "pesanpaketwisata"? "#0053AD": "transparent"}
             borderRadius="8px"
             width={{
@@ -115,7 +120,8 @@ const BreadCrumb = ({type}: BreadCrumbProps) => {
             }}
             paddingBottom={{
                 "lg" : "3rem"
-            }}>
+            }}
+            onClick={() => {navigate(`/paketwisata/pesanpaketwisata/${id.id}`)}}>
                 <Text
                 fontFamily={fontFamily}
                 color={type == "pesanpaketwisata"? "white": "#212121"}>Pesan Paket Wisata</Text>

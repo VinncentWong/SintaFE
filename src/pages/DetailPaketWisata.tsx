@@ -14,6 +14,7 @@ import axios from "axios";
 import api from "../api/api";
 import { SinglePaketWisataResponse, PaketWisatas } from "../response/paket_wisata";
 import Rundown from "../components/paket_wisata_detail/paket_wisata_rundown";
+import PesanPaketWisata from "../components/paket_wisata_detail/paket_wisata_pesan";
 
 interface DetailPaketWisataProps{
     type: PaketWisataType
@@ -87,6 +88,11 @@ const DetailPaketWisata = ({type}: DetailPaketWisataProps) => {
             showedElement = <PaketWisataFasilitas 
             paketWisata={paketWisata as PaketWisatas}/>
             nonUnionType = "fasilitas";
+            break;
+        case "pesanpaketwisata":
+            showedElement = 
+            <PesanPaketWisata paketWisata={paketWisata as PaketWisatas}/>
+            nonUnionType="pesanpaketwisata";
             break;
         default:
             showedElement = <Rundown paketWisata={paketWisata as PaketWisatas}/>

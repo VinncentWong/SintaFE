@@ -57,12 +57,13 @@ const DetailTamuInput = ({index, tipe}: DetailTamuInputProps) => {
                 </Text>
             </Box>
             </Flex>
-            <Flex marginX={{"lg" : "2rem"}}>
+            <Flex marginX={{"lg" : "2rem"}} width={{"lg" : "100%"}}>
                 <Flex
                 flexDir="column"
                 gap={{"lg" : "0.5rem"}}
                 justifyContent={{"lg" : "center"}}
-                marginX={{"lg" : "1rem"}}>
+                marginX={{"lg" : "1rem"}}
+                width={{"lg" : "30%"}}>
                     <Text 
                     fontFamily={fontFamily}
                     fontWeight={500}
@@ -231,12 +232,13 @@ const DetailTamuInput = ({index, tipe}: DetailTamuInputProps) => {
                     </Text>
                 </Box>
                 </Flex>
-                <Flex marginX={{"lg" : "2rem"}}>
+                <Flex marginX={{"lg" : "2rem"}} width={{"lg" : "100%"}}>
                     <Flex
                     flexDir="column"
                     gap={{"lg" : "0.5rem"}}
                     justifyContent={{"lg" : "center"}}
-                    marginX={{"lg" : "1rem"}}>
+                    marginX={{"lg" : "1rem"}}
+                    width={{"lg" : "30%"}}>
                         <Text 
                         fontFamily={fontFamily}
                         fontWeight={500}
