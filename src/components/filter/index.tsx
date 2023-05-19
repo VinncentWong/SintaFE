@@ -214,7 +214,7 @@ const Filter = ({
     <Flex
       flexDir="column"
       width={{
-        lg: "50%",
+        lg: "30%",
       }}
       marginLeft={{
         lg: "3rem",

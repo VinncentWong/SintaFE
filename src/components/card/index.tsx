@@ -37,7 +37,7 @@ const DestinationCard = ({
             backgroundImage={imageLink}
             backgroundSize="cover"
             width={{
-                "lg" : "55vh" 
+                "lg" : "90%" 
             }}
             height={{
                 "lg" : "25vh"
